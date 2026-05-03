@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--
+    ┌─────────────────────────────────────┐
+    │                                     │
+    │   so you went looking.              │
+    │                                     │
+    │   A N U R A G   M A H A P A T R A   │
+    │   SOFTWARE DEVELOPER                │
+    │                                     │
+    │   built by hand                     │
+    │   just html, css and vanilla js     │
+    │   animated with gsap and lenis      │
+    │                                     │
+    │   ianurag.site                      │
+    │   github.com/IAnuragMahapatra       │
+    │                                     │
+    │   hope it holds up under            │
+    │   inspection.                       │
+    │                                     │
+    └─────────────────────────────────────┘
+    -->
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <title>Software Developer | Anurag Mahapatra</title>
+    <meta
+      name="description"
+      content="Software developer building intelligent systems and tools that bridge research and production. Available for new opportunities."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500&family=Syne:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/global.css?v=1779484322684" />
+    <link rel="stylesheet" href="css/home.css?v=1779484322684" />
+    <script>
+      if (history.scrollRestoration) history.scrollRestoration = "manual";
+    </script>
+    <script>
+      (function () {
+        var params = new URLSearchParams(window.location.search);
+        if (params.has("x") && params.has("y")) {
+          document.write(
+            '<div id="btc-entrance-overlay" style="position: fixed; inset: 0; z-index: 99999; background: oklch(65% 0.16 250);"></div>',
+          );
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div class="print-only">
+      <div class="print-tree">🌳</div>
+      <div class="print-art">Save a tree.</div>
+      <div class="print-message">
+        This portfolio was made to be interactive.<br />
+        Save the paper and experience it online.
+      </div>
+      <div class="print-url">ianurag.site</div>
+    </div>
+
+    <div class="bg-grid"></div>
+
+    <div class="section-tracker" aria-hidden="true">
+      <span class="tracker-section">HERO</span>
+      <span class="tracker-index">01/07</span>
+      <span class="tracker-hint" id="tracker-hint">HOLD SPACE</span>
+    </div>
+
+    <div class="cursor" aria-hidden="true">
+      <div class="cursor-dot"></div>
+      <div class="cursor-cross-h"></div>
+      <div class="cursor-cross-v"></div>
+    </div>
+
+    <nav class="nav" id="nav">
+      <a href="#hero" class="nav-logo">PORTFOLIO ©26</a>
+      <div class="nav-links">
+        <a href="pages/work.html" class="nav-link" data-cursor="expand">WORK</a>
+        <a href="#stack" class="nav-link" data-cursor="expand">STACK</a>
+        <a href="pages/blog.html" class="nav-link" data-cursor="expand">BLOG</a>
+        <a href="#contact" class="nav-link" data-cursor="expand">CONTACT</a>
+      </div>
+      <a
+        href="data/resume.pdf"
+        download="mahapatra_anurag_2026.pdf"
+        class="nav-resume"
+        data-cursor="expand"
+        aria-label="Download resume"
+        >RÉSUMÉ</a
+      >
+    </nav>
+
+    <main>
+      <section class="hero" id="hero" data-section="HERO" data-index="01/07">
+        <div class="hero-content">
+          <div class="hero-title-wrapper" data-cursor="expand">
+            <h1 class="hero-title hero-title-top" aria-hidden="true">
+              SOFTWARE<br />DEVELOPER
+            </h1>
+            <h1 class="hero-title hero-title-bottom">
+              SOFTWARE<br />DEVELOPER
+            </h1>
+            <div class="hero-title-core">just a guy who likes computers</div>
+          </div>
+          <p class="hero-sub">
+            Odisha, India<br />
+            ships production-grade full-stack systems and AI tools<br />
+            available globally for full-time, internships & freelance
+          </p>
+        </div>
+        <div class="hero-name-wrapper" data-cursor="accent">
+          <h2 class="hero-name hero-name-structure">ANURAG<br />MAHAPATRA</h2>
+          <h2 class="hero-name hero-name-solid">ANURAG<br />MAHAPATRA</h2>
+        </div>
+      </section>
+
+      <section
+        class="projects"
+        id="work"
+        data-section="WORK"
+        data-index="02/07"
+      >
+        <div class="projects-header">
+          <h2 class="section-label">SELECTED WORK</h2>
+          <span class="section-meta">01–03</span>
+        </div>
+
+        <div class="accordion" id="workAccordion"></div>
+
+        <div class="projects-footer">
+          <a href="pages/work.html" class="writing-all" data-cursor="expand"
+            >VIEW MORE <span class="arrow">→</span></a
+          >
+        </div>
+      </section>
+
+      <section class="stack" id="stack" data-section="STACK" data-index="03/07">
+        <div class="stack-header">
+          <span class="stack-label">CAPABILITIES</span>
+        </div>
+        <div class="stack-grid" id="stackGrid"></div>
+      </section>
+
+      <section class="writing" data-section="WRITING" data-index="04/07">
+        <div class="writing-header">
+          <span class="writing-label">LATEST WRITING</span>
+          <a href="pages/blog.html" class="writing-all" data-cursor="expand"
+            >VIEW ALL <span class="arrow">→</span></a
+          >
+        </div>
+        <div class="writing-grid">
+          <a
+            href="pages/post.html?slug=position-drift"
+            class="writing-item writing-item--featured"
+            data-cursor="expand"
+          >
+            <div class="writing-meta">
+              <span class="writing-date">2026.04</span>
+              <span class="writing-tag">AI</span>
+            </div>
+            <h3 class="writing-title">
+              The "Position Drift" Problem: Why LLMs cower under user pressure
+            </h3>
+            <p class="writing-excerpt">
+              An analysis of semantic yielding in conversational models when
+              faced with authoritative user corrections.
+            </p>
+            <div class="writing-read">
+              READ ARTICLE <span class="arrow">→</span>
+            </div>
+          </a>
+          <a
+            href="pages/post.html?slug=ast-analysis"
+            class="writing-item"
+            data-cursor="expand"
+          >
+            <div class="writing-meta">
+              <span class="writing-date">2026.03</span>
+              <span class="writing-tag">DEVTOOLS</span>
+            </div>
+            <h3 class="writing-title">
+              AST Static Analysis + LLM Semantic Checks for code quality
+            </h3>
+          </a>
+          <a
+            href="pages/post.html?slug=zero-knowledge-pastes"
+            class="writing-item"
+            data-cursor="expand"
+          >
+            <div class="writing-meta">
+              <span class="writing-date">2026.02</span>
+              <span class="writing-tag">PRIVACY</span>
+            </div>
+            <h3 class="writing-title">
+              Zero-Knowledge Pastes: AES-256-GCM on the edge
+            </h3>
+          </a>
+        </div>
+      </section>
+
+      <section class="ethos" id="about" data-section="ETHOS" data-index="05/07">
+        <div class="ethos-lines">
+          <p class="ethos-line">
+            CSE '27, VSSUT, Burla. Where the official compiler is still a pen
+            and a lab record.
+          </p>
+          <p class="ethos-line">
+            Secretary, Department of Computer Science and Engineering.
+          </p>
+          <p class="ethos-line">
+            Someone has to keep things moving when everything's on fire.
+          </p>
+          <p class="ethos-line">
+            Cloud & DevOps Lead at Enigma, the uni's web and coding club.
+          </p>
+          <p class="ethos-line">
+            Oversees the club's hosting infrastructures, and mentors the juniors
+            who maintain them.
+          </p>
+          <p class="ethos-line">
+            Works across the full stack: frontend, backend, infra, AI.
+          </p>
+          <p class="ethos-line">
+            Uses every tool available to get the job done. The core ships fast.
+          </p>
+          <p class="ethos-line">
+            Then stays to polish every detail until it's actually impressive.
+          </p>
+          <p class="ethos-line">Still on time.</p>
+          <p class="ethos-line ethos-line--vivid">
+            Wouldn't have it any other way.
+          </p>
+        </div>
+      </section>
+
+      <section
+        class="depth"
+        role="button"
+        tabindex="0"
+        aria-label="View Behind the Code"
+        data-section="BEHIND THE CODE"
+        data-index="06/07"
+      >
+        <div class="depth-container">
+          <h2 class="depth-text depth-front">SOFTWARE DEVELOPER</h2>
+          <div class="depth-mask">
+            <h2 class="depth-text depth-back">BEHIND THE CODE</h2>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="closing"
+        id="contact"
+        data-section="CONTACT"
+        data-index="07/07"
+      >
+        <div class="closing-content">
+          <p class="closing-lead">
+            If you've made it this far,<br />you probably care about the details
+            too.
+          </p>
+          <a
+            href="mailto:anurag2005om@gmail.com"
+            class="closing-initiate"
+            data-cursor="expand"
+            >INITIATE</a
+          >
+          <div class="closing-socials">
+            <a
+              href="https://x.com/AnuragM_36"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="closing-social-link"
+              data-cursor="expand"
+              >TWITTER <span class="arrow">↗</span></a
+            >
+            <a
+              href="https://www.linkedin.com/in/anurag-mahapatra-7336892b0/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="closing-social-link"
+              data-cursor="expand"
+              >LINKEDIN <span class="arrow">↗</span></a
+            >
+            <a
+              href="https://github.com/IAnuragMahapatra"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="closing-social-link"
+              data-cursor="expand"
+              >GITHUB <span class="arrow">↗</span></a
+            >
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <div class="footer-row">
+          <div class="footer-col">
+            <span class="footer-label">STATUS</span>
+            <span>OPEN FOR FULL-TIME, INTERNSHIPS & FREELANCE</span>
+          </div>
+          <div class="footer-col">
+            <span class="footer-label">LOCAL</span>
+            <span id="local-time">00:00:00</span>
+          </div>
+        </div>
+        <div class="footer-row footer-row--end">
+          <div class="footer-links">
+            <a
+              href="https://x.com/AnuragM_36"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-cursor="expand"
+              >TWITTER</a
+            >
+            <a
+              href="https://www.linkedin.com/in/anurag-mahapatra-7336892b0/"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-cursor="expand"
+              >LINKEDIN</a
+            >
+            <a
+              href="https://github.com/IAnuragMahapatra"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-cursor="expand"
+              >GITHUB</a
+            >
+          </div>
+          <span class="footer-copy">©2026</span>
+        </div>
+      </footer>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.39/dist/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js?v=1779484322684"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js?v=1779484322684"></script>
+    <script src="js/global.js?v=1779484322684"></script>
+    <script src="js/home.js?v=1779484322684"></script>
+  </body>
+</html>

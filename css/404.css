@@ -1,0 +1,100 @@
+.not-found {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: var(--space-md);
+  text-align: center;
+}
+
+.not-found__cascade {
+  position: relative;
+  width: 100%;
+  height: clamp(8rem, 25vw, 22rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 0;
+  margin-bottom: var(--space-lg);
+}
+
+.not-found__layer {
+  position: absolute;
+  font-family: var(--font-display);
+  font-size: clamp(8rem, 25vw, 22rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.08em;
+  padding-right: 0.08em; /* Balances the negative tracking to restore perfect horizontal center */
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--color-surface-muted);
+  white-space: nowrap;
+  will-change: transform;
+}
+
+/* Base style for the front layer */
+.not-found__layer:nth-child(1) {
+  -webkit-text-stroke-color: var(--color-primary-vivid);
+  z-index: 10;
+  opacity: 1;
+}
+
+.not-found__content {
+  position: relative;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-lg);
+  width: 100%;
+  margin-bottom: var(--space-xl);
+}
+
+.not-found__msg {
+  font-family: var(--font-mono);
+  font-size: clamp(1.2rem, 1.8vw, 1.8rem);
+  color: var(--color-on-surface);
+  line-height: 1.6;
+  opacity: 0.8;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.not-found__btn {
+  position: relative;
+  z-index: 30;
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 3vw, 1.8rem);
+  font-weight: 500;
+  line-height: var(--leading-display);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-on-surface);
+  text-decoration: none;
+  transition: color 0.4s var(--ease-out);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  will-change: transform;
+}
+
+.not-found__btn:hover {
+  color: var(--color-primary-vivid);
+}
+
+.not-found__btn .arrow {
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  margin-left: var(--space-sm);
+  transform: translateY(-50%);
+  transition: transform 0.3s var(--ease-out);
+  display: inline-block;
+}
+
+.not-found__btn:hover .arrow {
+  transform: translate(4px, calc(-50% + 4px));
+}

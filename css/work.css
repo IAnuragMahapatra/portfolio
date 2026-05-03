@@ -1,0 +1,143 @@
+
+.projects {
+  padding-bottom: var(--space-xl);
+}
+
+.project-showcase {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  padding: var(--space-md) 0;
+  margin-top: var(--space-lg);
+}
+
+.project-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: var(--space-xl);
+  padding: var(--space-lg) var(--space-md);
+  border-top: 1px solid var(--color-surface-muted);
+}
+
+.project-row.is-reversed {
+  direction: rtl;
+}
+
+.project-row.is-reversed>* {
+  direction: ltr;
+}
+
+.project-visual {
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+  aspect-ratio: 4/3;
+  width: 100%;
+}
+
+
+/* GSAP parallax hook */
+.project-img {
+  width: 100%;
+  height: 130%;
+  object-fit: cover;
+  filter: grayscale(100%);
+  transition: filter 0.6s var(--ease-out);
+}
+
+.project-row:hover .project-img {
+  filter: grayscale(0%);
+}
+
+.project-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.project-header {
+  margin-bottom: var(--space-md);
+}
+
+.project-num {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--color-primary);
+  display: block;
+  margin-bottom: var(--space-xs);
+}
+
+.project-title {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 6vw, 6rem);
+  font-weight: 500;
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  margin-bottom: var(--space-xs);
+}
+
+.project-tag {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.1em;
+  opacity: 0.6;
+}
+
+.project-details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.project-desc {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  line-height: var(--leading-body);
+  opacity: 0.8;
+  max-width: 55ch;
+}
+
+.project-meta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.project-stack {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  opacity: 0.5;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.project-links {
+  display: flex;
+  gap: var(--space-sm);
+  margin-top: var(--space-xs);
+}
+
+.project-link {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.project-link:hover {
+  color: var(--color-primary-vivid);
+}
+
+@media (max-width: 900px) {
+
+  .project-row,
+  .project-row.is-reversed {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+    direction: ltr;
+  }
+}

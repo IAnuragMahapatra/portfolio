@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>The "Position Drift" Problem: Why LLMs Cower Under Pressure, Anurag Mahapatra</title>
+  <meta name="description" content="I built a pipeline to measure how easily state-of-the-art models abandon correct answers when a user insists they are wrong.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Manrope:wght@400;500&family=Syne:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/post.css">
+  <script>if(history.scrollRestoration)history.scrollRestoration='manual';</script>
+</head>
+<body>
+
+  <div class="bg-grid" aria-hidden="true"></div>
+
+  <div class="read-progress" id="readProgress" aria-hidden="true">
+    <div class="read-progress__bar" id="readProgressBar"></div>
+  </div>
+
+  <div class="section-tracker" aria-hidden="true">
+    <span class="tracker-section">POST</span>
+    <span class="tracker-index">01/02</span>
+    <span class="tracker-hint">SCROLL</span>
+  </div>
+
+  <div class="cursor" aria-hidden="true">
+    <div class="cursor-dot"></div>
+    <div class="cursor-cross-h"></div>
+    <div class="cursor-cross-v"></div>
+  </div>
+
+  <nav class="nav" id="nav">
+    <a href="blog.html" class="nav-logo" data-cursor="expand"><span class="arrow">←</span> FIELD NOTES</a>
+    <div class="nav-links">
+      <a href="work.html" class="nav-link" data-cursor="expand">WORK</a>
+      <a href="../#stack" class="nav-link" data-cursor="expand">STACK</a>
+      <a href="blog.html" class="nav-link nav-link--active" data-cursor="expand">BLOG</a>
+      <a href="#contact" class="nav-link" data-cursor="expand">CONTACT</a>
+    </div>
+    <a href="../data/resume.pdf" download="mahapatra_anurag_2026.pdf" class="nav-resume" data-cursor="expand" aria-label="Download resume">RÉSUMÉ</a>
+  </nav>
+
+  <main>
+    <section class="post-hero" id="post-hero" data-section="POST" data-index="01/02">
+      <div class="post-hero__cover">
+        <img
+          src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1600&auto=format&fit=crop"
+          alt="Abstract neural network visualization"
+          class="post-hero__cover-img"
+          id="postCoverImg"
+        >
+        <div class="post-hero__cover-overlay"></div>
+      </div>
+
+      <div class="post-hero__content">
+        <div class="post-hero__eyebrow">
+          <span class="post-hero__tag">AI · RESEARCH</span>
+          <span class="post-hero__sep">—</span>
+          <span class="post-hero__date">2026.04.28</span>
+          <span class="post-hero__sep">—</span>
+          <span class="post-hero__readtime" id="readTimeEl">9 MIN READ</span>
+        </div>
+        <h1 class="post-hero__title" id="postTitle">
+          <span class="post-hero__title-line" data-hero-word>The "Position</span>
+          <span class="post-hero__title-line post-hero__title-line--outline" data-hero-word>Drift" Problem</span>
+          <span class="post-hero__title-line" data-hero-word>Why LLMs Cower</span>
+          <span class="post-hero__title-line post-hero__title-line--vivid" data-hero-word>Under Pressure</span>
+        </h1>
+        <p class="post-hero__sub" id="postSub">
+          I built a pipeline to measure how easily state-of-the-art models abandon correct answers when a user insists they are wrong. Here is what I found about the fragility of LLM reasoning.
+        </p>
+
+        <div class="post-actions">
+          <button class="post-action-btn" id="bookmarkBtn" data-cursor="expand" aria-label="Bookmark this page" title="Add to bookmarks">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+            </svg>
+            <span class="post-action-btn__label">BOOKMARK</span>
+          </button>
+          <button class="post-action-btn" id="shareBtn" data-cursor="expand" aria-label="Share this post">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+            </svg>
+            <span class="post-action-btn__label">SHARE</span>
+          </button>
+          <button class="post-action-btn" id="copyLinkBtn" data-cursor="expand" aria-label="Copy link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+            </svg>
+            <span class="post-action-btn__label" id="copyLinkLabel">COPY LINK</span>
+          </button>
+          <a class="post-action-btn" href="#toc" data-cursor="expand" aria-label="Jump to contents">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/>
+              <line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/>
+              <line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>
+            </svg>
+            <span class="post-action-btn__label">CONTENTS</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <div class="post-layout">
+
+      <aside class="post-sidebar" id="postSidebar">
+        <nav class="toc" id="toc" aria-label="Table of contents">
+          <div class="toc__header">
+            <span class="toc__label">CONTENTS</span>
+          </div>
+          <ol class="toc__list">
+            <li><a href="#s1" class="toc__link" data-cursor="expand">The Sycophancy Spectrum</a></li>
+            <li><a href="#s2" class="toc__link" data-cursor="expand">The Pipeline</a></li>
+            <li><a href="#s3" class="toc__link" data-cursor="expand">Results That Surprised Me</a></li>
+            <li><a href="#s4" class="toc__link" data-cursor="expand">Why This Happens</a></li>
+            <li><a href="#s5" class="toc__link" data-cursor="expand">What Can Be Done</a></li>
+            <li><a href="#s6" class="toc__link" data-cursor="expand">Closing Thought</a></li>
+          </ol>
+        </nav>
+
+        <div class="sidebar-progress">
+          <div class="sidebar-progress__track">
+            <div class="sidebar-progress__fill" id="sidebarProgressFill"></div>
+          </div>
+          <span class="sidebar-progress__pct" id="sidebarPct">0%</span>
+        </div>
+
+        <div class="sidebar-author">
+          <div class="sidebar-author__avatar" aria-hidden="true">AM</div>
+          <div>
+            <div class="sidebar-author__name">Anurag Mahapatra</div>
+            <div class="sidebar-author__role">Software Developer</div>
+          </div>
+        </div>
+      </aside>
+
+      <article class="post-article" id="postArticle">
+      </article>
+    </div>
+
+    <nav class="post-nav" aria-label="Post navigation">
+      <a href="blog.html" class="post-nav__item post-nav__item--prev" data-cursor="expand">
+        <span class="post-nav__dir"><span class="arrow">←</span> ALL POSTS</span>
+        <span class="post-nav__title">Field Notes Archive</span>
+      </a>
+      <a href="#" class="post-nav__item post-nav__item--next" data-cursor="expand">
+        <span class="post-nav__dir">NEXT POST <span class="arrow">→</span></span>
+        <span class="post-nav__title">AST Static Analysis + LLM Semantic Checks</span>
+      </a>
+    </nav>
+
+    <section class="closing" id="contact" data-section="CONTACT" data-index="02/02">
+      <div class="closing-content">
+        <p class="closing-lead">Have thoughts on these topics?<br>I'm always open to talking shop.</p>
+        <a href="mailto:anurag2005om@gmail.com" class="closing-initiate" data-cursor="expand">DISCUSS</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-row">
+      <div class="footer-col">
+        <span class="footer-label">STATUS</span>
+        <span>OPEN FOR FULL-TIME, INTERNSHIPS & FREELANCE</span>
+      </div>
+      <div class="footer-col">
+        <span class="footer-label">LOCAL</span>
+        <span id="local-time">00:00:00</span>
+      </div>
+    </div>
+    <div class="footer-row footer-row--end">
+      <div class="footer-links">
+        <a href="https://x.com/AnuragM_36" target="_blank" rel="noopener noreferrer" data-cursor="expand">TWITTER</a>
+        <a href="https://www.linkedin.com/in/anurag-mahapatra-7336892b0/" target="_blank" rel="noopener noreferrer" data-cursor="expand">LINKEDIN</a>
+        <a href="https://github.com/IAnuragMahapatra" target="_blank" rel="noopener noreferrer" data-cursor="expand">GITHUB</a>
+      </div>
+      <span class="footer-copy">©2026</span>
+    </div>
+  </footer>
+
+  <div class="bm-toast" id="bmToast" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.39/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="../js/global.js"></script>
+  <script src="../js/post-loader.js"></script>
+  <script src="../js/post.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Behind the Code, Anurag Mahapatra</title>
+  <meta name="description" content="The human layer. Who I am, what I play, what I listen to, and the gear that makes it happen.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500&family=Syne:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/behind.css">
+  <script>
+    (function() {
+      var params = new URLSearchParams(window.location.search);
+      if (params.has('x') && params.has('y')) {
+        document.write('<div id="btc-entrance-overlay" style="position: fixed; inset: 0; z-index: 99999; background: oklch(65% 0.16 250);"></div>');
+      }
+    })();
+  </script>
+</head>
+<body class="btc-page">
+
+  <div class="cursor" aria-hidden="true">
+    <div class="cursor-dot"></div>
+    <div class="cursor-cross-h"></div>
+    <div class="cursor-cross-v"></div>
+  </div>
+
+  <button class="btc-back" id="btcBack" data-cursor="expand" aria-label="Go back to homepage">HOME <span class="arrow">→</span></button>
+
+  <main>
+    <section class="btc-hero" id="btcHero">
+      <div class="btc-hero__layout">
+        <div class="btc-hero__text">
+          <span class="btc-hero__eyebrow">THE HUMAN LAYER</span>
+          <h1 class="btc-hero__title">
+            <span data-scramble>BEHIND</span>
+            <span data-scramble>THE CODE</span>
+          </h1>
+          <div class="btc-hero__bio" id="heroBio">
+          </div>
+        </div>
+        <div class="btc-hero__photo-wrap" id="heroPhotoWrap">
+        </div>
+      </div>
+      <span class="btc-hero__scroll">SCROLL ↓</span>
+    </section>
+
+    <div class="btc-divider"></div>
+
+    <section class="btc-games" id="btcGames">
+      <div class="btc-section-label">GAMES I'M PLAYING</div>
+      <div class="games-pin">
+        <div class="games-track" id="gamesTrack">
+        </div>
+      </div>
+    </section>
+
+    <div class="btc-divider"></div>
+
+    <section class="btc-hardware" id="btcHardware">
+      <div class="btc-section-label">MY SETUP</div>
+      <div class="setup-grid" id="setupGrid">
+      </div>
+    </section>
+
+    <div class="btc-divider"></div>
+
+    <section class="btc-music" id="btcMusic">
+      <div class="btc-section-label">WEEKLY RECOMMENDATION</div>
+      <div class="vinyl-player" id="vinylPlayer">
+        <div class="vinyl-visual">
+          <div class="vinyl-disc">
+            <div class="vinyl-label">
+              <span class="vinyl-label__artist">THE MIDNIGHT</span>
+              <span class="vinyl-label__dot"></span>
+            </div>
+          </div>
+          <div class="vinyl-tonearm"></div>
+        </div>
+        <div class="vinyl-info">
+          <span class="vinyl-info__now">PICK OF THE WEEK</span>
+          <h3 class="vinyl-info__track" id="musicTrack">...</h3>
+          <span class="vinyl-info__artist" id="musicArtist">...</span>
+          <span class="vinyl-info__album" id="musicAlbum">...</span>
+          <button class="vinyl-play" id="vinylPlay" data-cursor="expand" aria-label="Play or pause the track">
+            <span class="vinyl-play__icon"></span>
+            <span class="vinyl-play__label">PLAY</span>
+          </button>
+          <div class="vinyl-visualizer" id="vinylVisualizer" aria-hidden="true"></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="btc-divider"></div>
+
+    <section class="btc-gallery" id="btcGallery">
+      <div class="btc-section-label">MOMENTS</div>
+      <div class="polaroid-desk" id="polaroidDesk">
+      </div>
+    </section>
+
+    <div class="btc-divider"></div>
+
+    <section class="btc-closing" id="btcClosing">
+      <div class="btc-closing__content">
+        <p class="btc-closing__lead">Now you know the person behind the pixels.<br>Maybe it's time to build something together.</p>
+        <a href="mailto:anurag2005om@gmail.com" class="btc-closing__word" data-cursor="expand">SAY HEY</a>
+        <div class="btc-closing__socials">
+          <a href="https://x.com/AnuragM_36" target="_blank" rel="noopener noreferrer" class="btc-closing__social" data-cursor="expand">TWITTER <span class="arrow">↗</span></a>
+          <a href="https://www.linkedin.com/in/anurag-mahapatra-7336892b0/" target="_blank" rel="noopener noreferrer" class="btc-closing__social" data-cursor="expand">LINKEDIN <span class="arrow">↗</span></a>
+          <a href="https://github.com/IAnuragMahapatra" target="_blank" rel="noopener noreferrer" class="btc-closing__social" data-cursor="expand">GITHUB <span class="arrow">↗</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="btc-lightbox" id="btcLightbox" aria-hidden="true">
+    <div class="btc-lightbox__inner">
+      <div class="btc-lightbox__polaroid">
+        <img id="lightboxImg" src="" alt="Enlarged photo">
+        <div class="btc-lightbox__caption" id="lightboxCaption"></div>
+      </div>
+    </div>
+    <button class="btc-lightbox__close" id="lightboxClose" aria-label="Close lightbox">CLOSE ✕</button>
+  </div>
+
+  <footer class="btc-footer">
+    <span>BEHIND THE CODE</span>
+    <span>OPEN FOR FULL-TIME, INTERNSHIPS & FREELANCE</span>
+    <span>©2026</span>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.39/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="../js/behind.js"></script>
+</body>
+</html>

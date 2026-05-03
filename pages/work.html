@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Selected Work | Anurag Mahapatra</title>
+  <meta name="description" content="A comprehensive collection of my software development projects.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500&family=Syne:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/global.css?v=1779484322684">
+  <link rel="stylesheet" href="../css/work.css?v=1779484322684">
+  <script>if(history.scrollRestoration)history.scrollRestoration='manual';</script>
+</head>
+<body>
+
+  <div class="bg-grid"></div>
+
+
+  <div class="section-tracker" aria-hidden="true">
+    <span class="tracker-section">META</span>
+    <span class="tracker-index">01/03</span>
+    <span class="tracker-hint" id="tracker-hint">HOLD SPACE</span>
+  </div>
+
+
+  <div class="cursor" aria-hidden="true">
+    <div class="cursor-dot"></div>
+    <div class="cursor-cross-h"></div>
+    <div class="cursor-cross-v"></div>
+  </div>
+
+
+  <nav class="nav" id="nav">
+    <a href="../" class="nav-logo" data-cursor="expand"><span class="arrow">←</span> BACK TO HOME</a>
+    <div class="nav-links">
+      <a href="work.html" class="nav-link nav-link--active" data-cursor="expand">WORK</a>
+      <a href="../#stack" class="nav-link" data-cursor="expand">STACK</a>
+      <a href="blog.html" class="nav-link" data-cursor="expand">BLOG</a>
+      <a href="#contact" class="nav-link" data-cursor="expand">CONTACT</a>
+    </div>
+    <a href="../data/resume.pdf" download="mahapatra_anurag_2026.pdf" class="nav-resume" data-cursor="expand" aria-label="Download resume">RÉSUMÉ</a>
+  </nav>
+
+  <main class="main-padded">
+
+    <section id="meta" data-section="META" data-index="01/03">
+      <div class="page-hero" data-animate="page-hero">
+        <div class="page-hero__eyebrow">
+          <span class="page-hero__index">06 PROJECTS</span>
+          <span class="page-hero__line"></span>
+          <span class="page-hero__label">SELECTED</span>
+        </div>
+        <h1 class="page-hero__title">
+          <span class="page-hero__title-row" data-hero-row>
+            <span class="page-hero__title-word" data-hero-word>SELECTED</span>
+          </span>
+          <span class="page-hero__title-row" data-hero-row>
+            <span class="page-hero__title-word page-hero__title-word--outline" data-hero-word>WORK</span>
+            <span class="page-hero__title-accent" data-hero-accent><span class="arrow">↘</span></span>
+          </span>
+        </h1>
+        <div class="page-hero__sub">
+          <p class="page-hero__desc">Full-stack systems, AI research tools, and privacy infrastructure, the projects I've shipped and learned the most from.</p>
+          <div class="page-hero__scroll-hint">
+            <span class="page-hero__scroll-dot"></span>
+            <span class="page-hero__scroll-text">SCROLL <span class="arrow">↓</span></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="projects" id="work" data-section="ALL WORK" data-index="02/03">
+      <div class="project-showcase">
+
+        <div class="project-row">
+          <div class="project-visual">
+            <div class="project-img-mask">
+              <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=800&auto=format&fit=crop" alt="DRIFT" class="project-img">
+            </div>
+          </div>
+          <div class="project-info">
+            <div class="project-header">
+              <span class="project-num">01</span>
+              <h2 class="project-title">DRIFT</h2>
+              <span class="project-tag">AI · RESEARCH</span>
+            </div>
+            <div class="project-details">
+              <p class="project-desc">Chrome extension that detects when an LLM abandons a correct position under user pressure, with no new evidence introduced. Tracks confidence decay across prompt iterations.</p>
+              <div class="project-meta">
+                <div class="project-stack"><span>LLM</span> <span>Ollama</span> <span>Anthropic</span></div>
+                <div class="project-links">
+                  <a href="post.html?slug=position-drift" class="project-link" data-cursor="expand">Read Notes <span class="arrow">↗</span></a>
+                  <a href="#" class="project-link" target="_blank" rel="noopener noreferrer">GitHub <span class="arrow">↗</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="project-row is-reversed">
+          <div class="project-visual">
+            <div class="project-img-mask">
+              <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=800&auto=format&fit=crop" alt="COMMITSENSE" class="project-img">
+            </div>
+          </div>
+          <div class="project-info">
+            <div class="project-header">
+              <span class="project-num">02</span>
+              <h2 class="project-title">COMMITSENSE</h2>
+              <span class="project-tag">AI · DEVTOOLS</span>
+            </div>
+            <div class="project-details">
+              <p class="project-desc">Git commit quality analyzer that runs AST static analysis and LLM semantic validation on every push via GitHub webhooks. Blocks vague commits dynamically.</p>
+              <div class="project-meta">
+                <div class="project-stack"><span>AST</span> <span>React</span> <span>Webhooks</span></div>
+                <div class="project-links">
+                  <a href="#" class="project-link" target="_blank" rel="noopener noreferrer">GitHub <span class="arrow">↗</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="project-row">
+          <div class="project-visual">
+            <div class="project-img-mask">
+              <img src="https://images.unsplash.com/photo-1639322537228-f710d846310a?q=80&w=800&auto=format&fit=crop" alt="BLINKBIN" class="project-img">
+            </div>
+          </div>
+          <div class="project-info">
+            <div class="project-header">
+              <span class="project-num">03</span>
+              <h2 class="project-title">BLINKBIN</h2>
+              <span class="project-tag">PRIVACY · INFRA</span>
+            </div>
+            <div class="project-details">
+              <p class="project-desc">Ephemeral paste sharing with AES-256-GCM encryption and burn-after-read semantics. The server never knows what it's storing, ensuring zero-knowledge privacy.</p>
+              <div class="project-meta">
+                <div class="project-stack"><span>AES-256</span> <span>Kafka</span> <span>Redis</span></div>
+                <div class="project-links">
+                  <a href="#" class="project-link" target="_blank" rel="noopener noreferrer">Live <span class="arrow">↗</span></a>
+                  <a href="#" class="project-link" target="_blank" rel="noopener noreferrer">GitHub <span class="arrow">↗</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="project-row is-reversed">
+          <div class="project-visual">
+            <div class="project-img-mask">
+              <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop" alt="NEXUS" class="project-img">
+            </div>
+          </div>
+          <div class="project-info">
+            <div class="project-header">
+              <span class="project-num">04</span>
+              <h2 class="project-title">NEXUS</h2>
+              <span class="project-tag">WEB · ARCHITECTURE</span>
+            </div>
+            <div class="project-details">
+              <p class="project-desc">A distributed micro-frontend architecture orchestrating complex data visualization modules with seamless state synchronization across independent domains.</p>
+              <div class="project-meta">
+                <div class="project-stack"><span>React</span> <span>TypeScript</span> <span>WebSockets</span></div>
+                <div class="project-links">
+                  <a href="#" class="project-link" target="_blank" rel="noopener noreferrer">GitHub <span class="arrow">↗</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="project-row">
+          <div class="project-visual">
+            <div class="project-img-mask">
+              <img src="https://images.unsplash.com/photo-1558655146-d09347e92766?q=80&w=800&auto=format&fit=crop" alt="AURA" class="project-img">
+            </div>
+          </div>
+          <div class="project-info">
+            <div class="project-header">
+              <span class="project-num">05</span>
+              <h2 class="project-title">AURA</h2>
+              <span class="project-tag">DESIGN · SYSTEMS</span>
+            </div>
+            <div class="project-details">
+              <p class="project-desc">Comprehensive design token engine that compiles Figma JSON variables into platform-specific configurations for web, iOS, and Android seamlessly.</p>
+              <div class="project-meta">
+                <div class="project-stack"><span>Node.js</span> <span>Figma API</span> <span>Actions</span></div>
+                <div class="project-links">
+                  <a href="#" class="project-link" target="_blank" rel="noopener noreferrer">GitHub <span class="arrow">↗</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="project-row is-reversed">
+          <div class="project-visual">
+            <div class="project-img-mask">
+              <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop" alt="SYNTHESIS" class="project-img">
+            </div>
+          </div>
+          <div class="project-info">
+            <div class="project-header">
+              <span class="project-num">06</span>
+              <h2 class="project-title">SYNTHESIS</h2>
+              <span class="project-tag">DATA · ENGINEERING</span>
+            </div>
+            <div class="project-details">
+              <p class="project-desc">High-throughput data processing pipeline aggregating logs from edge nodes, storing in a column-oriented database for real-time analytics.</p>
+              <div class="project-meta">
+                <div class="project-stack"><span>Go</span> <span>Kafka</span> <span>ClickHouse</span></div>
+                <div class="project-links">
+                  <a href="#" class="project-link" target="_blank" rel="noopener noreferrer">GitHub <span class="arrow">↗</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="closing" id="contact" data-section="CONTACT" data-index="03/03">
+      <div class="closing-content">
+        <p class="closing-lead">Want to see how these were built?</p>
+        <a href="mailto:anurag2005om@gmail.com" class="closing-initiate" data-cursor="expand">REACH OUT</a>
+      </div>
+    </section>
+
+
+  <footer class="footer">
+      <div class="footer-row">
+        <div class="footer-col">
+          <span class="footer-label">STATUS</span>
+          <span>OPEN FOR FULL-TIME, INTERNSHIPS & FREELANCE</span>
+        </div>
+        <div class="footer-col">
+          <span class="footer-label">LOCAL</span>
+          <span id="local-time">00:00:00</span>
+        </div>
+      </div>
+      <div class="footer-row footer-row--end">
+        <div class="footer-links">
+          <a href="https://x.com/AnuragM_36" target="_blank" rel="noopener noreferrer" data-cursor="expand">TWITTER</a>
+          <a href="https://www.linkedin.com/in/anurag-mahapatra-7336892b0/" target="_blank" rel="noopener noreferrer" data-cursor="expand">LINKEDIN</a>
+          <a href="https://github.com/IAnuragMahapatra" target="_blank" rel="noopener noreferrer" data-cursor="expand">GITHUB</a>
+        </div>
+        <span class="footer-copy">©2026</span>
+      </div>
+    </footer>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.39/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js?v=1779484322684"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js?v=1779484322684"></script>
+  <script src="../js/global.js?v=1779484322684"></script>
+  <script src="../js/work.js?v=1779484322684"></script>
+</body>
+</html>

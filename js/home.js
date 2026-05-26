@@ -411,6 +411,45 @@ const loadPortfolioData = async () => {
         });
       }
     }
+    const writingGrid = document.querySelector('.writing-grid');
+    if (writingGrid) {
+      const postsRes = await fetch('data/posts.json');
+      if (postsRes.ok) {
+        const allPosts = await postsRes.json();
+
+        // Sort by date newest first, take the 3 most recent published posts
+        const latest = allPosts
+          .filter(function(p) { return p.status === 'published'; })
+          .sort(function(a, b) { return new Date(b.date) - new Date(a.date); })
+          .slice(0, 3);
+
+        writingGrid.innerHTML = '';
+        latest.forEach(function(post, i) {
+          const isFeatured = i === 0;
+          const featuredClass = isFeatured ? ' writing-item--featured' : '';
+          const tag = (post.tags || []).join(' · ');
+          // Format date as YYYY.MM
+          const dateObj = new Date(post.date);
+          const dateStr = dateObj.getFullYear() + '.' + String(dateObj.getMonth() + 1).padStart(2, '0');
+
+          const excerptHtml = isFeatured
+            ? "<p class=\"writing-excerpt\">" + esc(post.excerpt) + "</p>" +
+              "<div class=\"writing-read\">READ ARTICLE <span class=\"arrow\">\u2192</span></div>"
+            : '';
+
+          const html = "<a href=\"pages/post.html?slug=" + esc(post.slug) + "\" class=\"writing-item" + featuredClass + "\" data-cursor=\"expand\">" +
+            "<div class=\"writing-meta\">" +
+              "<span class=\"writing-date\">" + esc(dateStr) + "</span>" +
+              "<span class=\"writing-tag\">" + esc(tag) + "</span>" +
+            "</div>" +
+            "<h3 class=\"writing-title\">" + esc(post.title) + "</h3>" +
+            excerptHtml +
+          "</a>";
+
+          writingGrid.insertAdjacentHTML('beforeend', html);
+        });
+      }
+    }
   } catch (err) {
     console.error('Failed to load portfolio data:', err);
   }

@@ -2,7 +2,8 @@
 (function () {
   'use strict';
 
-  const DATA_DIR = '../data/posts/';
+  const getUrl = (path) => (window.CONFIG && window.CONFIG.DATA_BASE_URL) ? window.CONFIG.DATA_BASE_URL + path : '../data/' + path;
+  const DATA_DIR = getUrl('posts/');
 
   function parseFrontmatter(raw) {
     const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);

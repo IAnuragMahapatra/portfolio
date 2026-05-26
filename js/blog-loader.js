@@ -3,7 +3,8 @@
 (function () {
   'use strict';
 
-  const DATA_PATH = '../data/posts.json';
+  const getUrl = (path) => (window.CONFIG && window.CONFIG.DATA_BASE_URL) ? window.CONFIG.DATA_BASE_URL + path : '../data/' + path;
+  const DATA_PATH = getUrl('posts.json');
   const POST_PAGE = 'post.html';
 
   const feedEl = document.querySelector('.blog-feed');

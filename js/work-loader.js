@@ -3,7 +3,8 @@
 (function () {
   'use strict';
 
-  const DATA_PATH = '../data/works.json';
+  const getUrl = (path) => (window.CONFIG && window.CONFIG.DATA_BASE_URL) ? window.CONFIG.DATA_BASE_URL + path : '../data/' + path;
+  const DATA_PATH = getUrl('works.json');
 
   const showcase = document.getElementById('projectShowcase');
   if (!showcase) return;

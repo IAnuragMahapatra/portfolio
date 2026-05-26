@@ -1,3 +1,10 @@
+// Global configuration
+window.CONFIG = {
+  // Change this to 'https://cdn.ianurag.site/data/' when deploying the CDN
+  // If null, scripts will fall back to their local relative paths ('data/...' or '../data/...')
+  DATA_BASE_URL: null
+};
+
 gsap.registerPlugin(ScrollTrigger);
 
 // If the user navigates back or forward, the page loads from bfcache.

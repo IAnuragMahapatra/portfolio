@@ -75,6 +75,7 @@
       console.warn('[work-loader] Could not load works.json:', err.message);
       // Fail silently and keep any static markup already in DOM
     } finally {
+      document.dispatchEvent(new Event('workDataLoaded'));
       if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
       if (typeof window.scrollToHash === 'function') {
         window.scrollToHash();

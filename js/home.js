@@ -41,8 +41,6 @@ const initHero = () => {
       gsap.to('.hero-title-core', { opacity: 0, duration: 0.2, ease: "power2.in", overwrite: true });
       gsap.to('.hero-title-top', { y: 0, duration: 0.4, delay: 0.15, ease: "power3.inOut", overwrite: true });
       gsap.to('.hero-title-bottom', { y: 0, duration: 0.4, delay: 0.15, ease: "power3.inOut", overwrite: true });
-      gsap.to('.bp-hero-wrapper-box', { top: 0, bottom: 0, duration: 0.4, delay: 0.15, ease: "power3.inOut", overwrite: true });
-      gsap.to('.hero-title-wrapper > .bp-label', { y: 0, duration: 0.4, delay: 0.15, ease: "power3.inOut", overwrite: true });
     };
 
     wrapper.addEventListener('mouseenter', () => {
@@ -51,8 +49,6 @@ const initHero = () => {
       gsap.to('.hero-title-top', { y: -25, duration: 0.4, ease: "power3.inOut", overwrite: true });
       gsap.to('.hero-title-bottom', { y: 25, duration: 0.4, ease: "power3.inOut", overwrite: true });
       gsap.to('.hero-title-core', { opacity: 1, duration: 0.25, delay: 0.4, ease: "power2.out", overwrite: true });
-      gsap.to('.bp-hero-wrapper-box', { top: -25, bottom: -25, duration: 0.4, ease: "power3.inOut", overwrite: true });
-      gsap.to('.hero-title-wrapper > .bp-label', { y: -25, duration: 0.4, ease: "power3.inOut", overwrite: true });
     });
 
     wrapper.addEventListener('mouseleave', closeHero);
@@ -269,7 +265,7 @@ const initClosing = () => {
     }
   });
 
-  gsap.from('.closing-cta', {
+  gsap.from('.closing-initiate', {
     y: 20,
     opacity: 0,
     duration: 0.8,

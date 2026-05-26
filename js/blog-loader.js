@@ -68,6 +68,7 @@
       console.warn('[blog-loader] Could not load posts.json:', err.message);
       // Fail silently and keep any static markup already in DOM
     } finally {
+      document.dispatchEvent(new Event('blogDataLoaded'));
       if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
       if (typeof window.scrollToHash === 'function') {
         window.scrollToHash();

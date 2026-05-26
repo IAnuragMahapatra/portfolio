@@ -29,6 +29,6 @@ const initBlogPage = () => {
 };
 
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('blogDataLoaded', () => {
   initBlogPage();
 });

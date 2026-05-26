@@ -466,6 +466,16 @@
   };
 
   document.addEventListener('DOMContentLoaded', () => {
+    // Easter Egg: Console Greeting
+    console.log(
+      "%chey, dev\n\nglad you looked under the hood.\n\n→ hold [space] anywhere to enter Blueprint Mode\n→ explore section 6 on the home page to find Behind the Code\n→ got feedback or thoughts on the site? feel free to drop a mail\n→ if you’d like to work together, please reach out through the contact section\n\nhope you have an amazing day.\n— Anurag Mahapatra\n",
+      "color: oklch(65% 0.16 250); font-size: 14px; line-height: 1.8;"
+    );
+    console.log(
+      "%cthanks for visiting",
+      "color: #888888; font-size: 11px; font-family: monospace;"
+    );
+
     loadBtcData().then(() => {
       initEntrance();
       initScramble();

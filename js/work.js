@@ -2,7 +2,7 @@ const initProjectShowcase = () => {
   const rows = document.querySelectorAll('.project-row');
   if (!rows.length) return;
 
-  rows.forEach((row, i) => {
+  rows.forEach((row) => {
     const imgMask = row.querySelector('.project-img-mask');
     const img = row.querySelector('.project-img');
     const info = row.querySelector('.project-info');
@@ -59,5 +59,7 @@ const initProjectShowcase = () => {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
+  // work-loader.js injects the rows and calls ScrollTrigger.refresh()
+  // this listener wires up GSAP animations after the DOM is ready
   initProjectShowcase();
 });

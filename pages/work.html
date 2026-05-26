@@ -48,7 +48,7 @@
     <section id="meta" data-section="META" data-index="01/03">
       <div class="page-hero" data-animate="page-hero">
         <div class="page-hero__eyebrow">
-          <span class="page-hero__index">06 PROJECTS</span>
+          <span class="page-hero__index" id="work-count-label">— PROJECTS</span>
           <span class="page-hero__line"></span>
           <span class="page-hero__label">SELECTED</span>
         </div>
@@ -73,159 +73,7 @@
 
 
     <section class="projects" id="work" data-section="ALL WORK" data-index="02/03">
-      <div class="project-showcase">
-
-        <div class="project-row">
-          <div class="project-visual">
-            <div class="project-img-mask">
-              <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=800&auto=format&fit=crop" alt="DRIFT" class="project-img">
-            </div>
-          </div>
-          <div class="project-info">
-            <div class="project-header">
-              <span class="project-num">01</span>
-              <h2 class="project-title">DRIFT</h2>
-              <span class="project-tag">AI · RESEARCH</span>
-            </div>
-            <div class="project-details">
-              <p class="project-desc">Chrome extension that detects when an LLM abandons a correct position under user pressure, with no new evidence introduced. Tracks confidence decay across prompt iterations.</p>
-              <div class="project-meta">
-                <div class="project-stack"><span>LLM</span> <span>Ollama</span> <span>Anthropic</span></div>
-                <div class="project-links">
-                  <a href="post.html?slug=position-drift" class="project-link" data-cursor="expand">Read Notes <span class="arrow">↗</span></a>
-                  <a href="#" class="project-link" target="_blank" rel="noopener noreferrer">GitHub <span class="arrow">↗</span></a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-        <div class="project-row is-reversed">
-          <div class="project-visual">
-            <div class="project-img-mask">
-              <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=800&auto=format&fit=crop" alt="COMMITSENSE" class="project-img">
-            </div>
-          </div>
-          <div class="project-info">
-            <div class="project-header">
-              <span class="project-num">02</span>
-              <h2 class="project-title">COMMITSENSE</h2>
-              <span class="project-tag">AI · DEVTOOLS</span>
-            </div>
-            <div class="project-details">
-              <p class="project-desc">Git commit quality analyzer that runs AST static analysis and LLM semantic validation on every push via GitHub webhooks. Blocks vague commits dynamically.</p>
-              <div class="project-meta">
-                <div class="project-stack"><span>AST</span> <span>React</span> <span>Webhooks</span></div>
-                <div class="project-links">
-                  <a href="#" class="project-link" target="_blank" rel="noopener noreferrer">GitHub <span class="arrow">↗</span></a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-        <div class="project-row">
-          <div class="project-visual">
-            <div class="project-img-mask">
-              <img src="https://images.unsplash.com/photo-1639322537228-f710d846310a?q=80&w=800&auto=format&fit=crop" alt="BLINKBIN" class="project-img">
-            </div>
-          </div>
-          <div class="project-info">
-            <div class="project-header">
-              <span class="project-num">03</span>
-              <h2 class="project-title">BLINKBIN</h2>
-              <span class="project-tag">PRIVACY · INFRA</span>
-            </div>
-            <div class="project-details">
-              <p class="project-desc">Ephemeral paste sharing with AES-256-GCM encryption and burn-after-read semantics. The server never knows what it's storing, ensuring zero-knowledge privacy.</p>
-              <div class="project-meta">
-                <div class="project-stack"><span>AES-256</span> <span>Kafka</span> <span>Redis</span></div>
-                <div class="project-links">
-                  <a href="#" class="project-link" target="_blank" rel="noopener noreferrer">Live <span class="arrow">↗</span></a>
-                  <a href="#" class="project-link" target="_blank" rel="noopener noreferrer">GitHub <span class="arrow">↗</span></a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-        <div class="project-row is-reversed">
-          <div class="project-visual">
-            <div class="project-img-mask">
-              <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop" alt="NEXUS" class="project-img">
-            </div>
-          </div>
-          <div class="project-info">
-            <div class="project-header">
-              <span class="project-num">04</span>
-              <h2 class="project-title">NEXUS</h2>
-              <span class="project-tag">WEB · ARCHITECTURE</span>
-            </div>
-            <div class="project-details">
-              <p class="project-desc">A distributed micro-frontend architecture orchestrating complex data visualization modules with seamless state synchronization across independent domains.</p>
-              <div class="project-meta">
-                <div class="project-stack"><span>React</span> <span>TypeScript</span> <span>WebSockets</span></div>
-                <div class="project-links">
-                  <a href="#" class="project-link" target="_blank" rel="noopener noreferrer">GitHub <span class="arrow">↗</span></a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-        <div class="project-row">
-          <div class="project-visual">
-            <div class="project-img-mask">
-              <img src="https://images.unsplash.com/photo-1558655146-d09347e92766?q=80&w=800&auto=format&fit=crop" alt="AURA" class="project-img">
-            </div>
-          </div>
-          <div class="project-info">
-            <div class="project-header">
-              <span class="project-num">05</span>
-              <h2 class="project-title">AURA</h2>
-              <span class="project-tag">DESIGN · SYSTEMS</span>
-            </div>
-            <div class="project-details">
-              <p class="project-desc">Comprehensive design token engine that compiles Figma JSON variables into platform-specific configurations for web, iOS, and Android seamlessly.</p>
-              <div class="project-meta">
-                <div class="project-stack"><span>Node.js</span> <span>Figma API</span> <span>Actions</span></div>
-                <div class="project-links">
-                  <a href="#" class="project-link" target="_blank" rel="noopener noreferrer">GitHub <span class="arrow">↗</span></a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-        <div class="project-row is-reversed">
-          <div class="project-visual">
-            <div class="project-img-mask">
-              <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop" alt="SYNTHESIS" class="project-img">
-            </div>
-          </div>
-          <div class="project-info">
-            <div class="project-header">
-              <span class="project-num">06</span>
-              <h2 class="project-title">SYNTHESIS</h2>
-              <span class="project-tag">DATA · ENGINEERING</span>
-            </div>
-            <div class="project-details">
-              <p class="project-desc">High-throughput data processing pipeline aggregating logs from edge nodes, storing in a column-oriented database for real-time analytics.</p>
-              <div class="project-meta">
-                <div class="project-stack"><span>Go</span> <span>Kafka</span> <span>ClickHouse</span></div>
-                <div class="project-links">
-                  <a href="#" class="project-link" target="_blank" rel="noopener noreferrer">GitHub <span class="arrow">↗</span></a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div class="project-showcase" id="projectShowcase"></div>
     </section>
 
 
@@ -263,6 +111,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js?v=1779484322684"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js?v=1779484322684"></script>
   <script src="../js/global.js?v=1779484322684"></script>
+  <script src="../js/work-loader.js?v=1779484322684"></script>
   <script src="../js/work.js?v=1779484322684"></script>
 </body>
 </html>

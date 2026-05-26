@@ -86,7 +86,7 @@ const initBlog = () => {
 const initStackRows = () => {
   const rows = document.querySelectorAll('.stack-row');
   if (!rows.length) return;
-  
+
   gsap.fromTo(rows,
     { opacity: 0, y: 40 },
     {
@@ -107,7 +107,7 @@ const initStackRows = () => {
 const initWritingTeaser = () => {
   const items = document.querySelectorAll('.writing-item');
   if (!items.length) return;
-  
+
   gsap.fromTo(items,
     { opacity: 0, y: 30 },
     {
@@ -352,7 +352,14 @@ const loadPortfolioData = async () => {
       const worksRes = await fetch('data/works.json');
       if (worksRes.ok) {
         const works = await worksRes.json();
-        works.forEach(work => {
+        const featuredWorks = works.filter(function(w) { return w.featured === true; });
+
+        const sectionMeta = document.querySelector('#work .section-meta');
+        if (sectionMeta && featuredWorks.length > 0) {
+          sectionMeta.textContent = '01\u201300' + featuredWorks.length;
+        }
+
+        featuredWorks.forEach(work => {
           const stackList = work.stack.map(s => "<li>" + esc(s) + "</li>").join('');
           const githubLink = work.github ? "<a href=\"" + esc(work.github) + "\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"proj-link\" data-cursor=\"expand\">GitHub</a>" : '';
           const liveLink = work.live ? "<a href=\"" + esc(work.live) + "\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"proj-link\" data-cursor=\"expand\">Live Demo</a>" : '';
@@ -418,7 +425,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initEthos();
     initClosing();
     initBehindCode();
-    
+
     // Data has been injected and dom reflowed safe to re scroll
     if (typeof window.scrollToHash === 'function') {
       window.scrollToHash();

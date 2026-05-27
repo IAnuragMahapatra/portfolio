@@ -1,4 +1,4 @@
-// Populates behind the code page by fetching btc.json
+// Populate behind the code page
 
 (function () {
   'use strict';
@@ -13,7 +13,7 @@
     try {
       const btc = await window.fetchData('btc.json', 'json', false);
 
-      // Inject raw HTML for bio formatting sourced from local JSON
+      // Inject bio paragraphs and pullquote
       const heroBio = document.getElementById('heroBio');
       if (heroBio) {
         heroBio.innerHTML = '';

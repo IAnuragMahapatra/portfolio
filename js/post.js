@@ -73,7 +73,7 @@
       btn.addEventListener('click', () => {
         showToast(`PRESS ${shortcut} TO BOOKMARK THIS PAGE`);
         
-        // Brief visual feedback on the button itself
+        // Visual feedback on button
         const label = btn.querySelector('.post-action-btn__label');
         const orig = label ? label.textContent : '';
         if (label) label.textContent = shortcut;
@@ -111,7 +111,7 @@
     copyLink(document.getElementById('copyLinkBtn'), 'copyLinkLabel');
     copyLink(document.getElementById('copyLinkBtn2'), null);
 
-    // Native share API with clipboard fallback
+    // Native share API with fallback to clipboard
 
     const shareBtn = document.getElementById('shareBtn');
     if (shareBtn) {

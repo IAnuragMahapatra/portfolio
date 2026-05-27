@@ -109,7 +109,7 @@
     while (i < lines.length) {
       const line = lines[i];
 
-      // Handle bespoke directives for enhanced layout components
+      // Custom callout and stats directives
       if (/^:::callout/.test(line)) {
         const isAccent = line.includes('accent');
         const cls = isAccent ? 'post-callout post-callout--accent' : 'post-callout';
@@ -216,7 +216,7 @@
       if (!/^https?:\/\//i.test(src) && !src.startsWith('/') && !src.startsWith('data:')) {
         const slug = new URLSearchParams(window.location.search).get('slug') || '';
         
-        // Use CDN resolution here if CONFIG is set, else local fallback
+        // Resolving img path using CDN or local fallback
         if (window.CONFIG && window.CONFIG.DATA_BASE_URL) {
           finalSrc = window.CONFIG.DATA_BASE_URL.replace(/\/$/, '') + '/posts/' + slug + '/' + src.replace(/^\.\//, '');
         } else {
@@ -225,7 +225,7 @@
       }
       return "<img src=\"" + esc(finalSrc) + "\" alt=\"" + esc(alt) + "\" class=\"post-image\" loading=\"lazy\">";
     });
-    // Links sanitize href to prevent javascript and other dangerous protocols
+    // Sanitize link URLs to avoid XSS
     out = out.replace(/\[(.+?)\]\((.+?)\)/g, (match, text, href) => {
       if (/^(https?:|mailto:|#)/i.test(href)) {
         return "<a href=\"" + href + "\" class=\"post-link\" data-cursor=\"expand\">" + text + "</a>";
@@ -371,7 +371,7 @@
     }
   }
 
-  // Fetch and initialize post content based on URL slug
+  // Fetch post data based on URL query parameter
   async function loadPost() {
     const params = new URLSearchParams(window.location.search);
     const slug = params.get('slug');
@@ -394,7 +394,6 @@
       }
 
     } catch (err) {
-      // fetchData already redirects on critical failure, so we don't need to duplicate it here
       console.warn('[post-loader] Could not load post:', err.message);
     } finally {
       if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();

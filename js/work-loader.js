@@ -1,4 +1,4 @@
-// Populates the cinematic work showcase by fetching all entries from works database
+// Populate cinematic work showcase
 
 (function () {
   'use strict';
@@ -57,7 +57,7 @@
     try {
       const works = await window.fetchData('works.json', 'json', false);
 
-      // Update hero eyebrow count from total project length
+      // Update total project count in hero eyebrow
       const countLabel = document.getElementById('work-count-label');
       if (countLabel) {
         countLabel.textContent = String(works.length).padStart(2, '0') + ' PROJECTS';

@@ -1,4 +1,4 @@
-/* BEHIND THE CODE v5.1 Fix hero height, games height, SAY HEY color, photo lightbox, reduced top padding. */
+/* Behind the Code v5.1 */
 
 .btc-page {
   --btc-bg: oklch(96% 0.008 75);
@@ -73,7 +73,7 @@
   background: var(--btc-border);
 }
 
-/* 01 · HERO, Creative editorial Fits viewport. Reduced top space. */
+/* Section 01: Hero */
 
 .btc-hero {
   height: 100dvh;
@@ -454,7 +454,7 @@
   color: var(--btc-muted);
 }
 
-/* 04 · MUSIC, Vinyl player Tonearm positive=AWAY, negative=ON disc */
+/* Section 04: Music (Vinyl Player) */
 
 .btc-music {
   padding: var(--space-xl) var(--space-md);
@@ -765,7 +765,7 @@
   transform: rotate(2deg);
 }
 
-/* 06 · CTA, Closing arc pattern SAY HEY in accent, hover → warm coral */
+/* Section 06: CTA / Closing */
 
 .btc-closing {
   min-height: 100vh;

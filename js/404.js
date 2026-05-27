@@ -6,16 +6,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const btn = document.querySelector(".not-found__btn");
   const msg = document.querySelector(".not-found__msg");
 
-  // Initialization Animation
   gsap.set(layers, { opacity: 0, scale: 0.8 });
   gsap.set(msg, { opacity: 0, y: 20 });
   gsap.set(btn, { opacity: 0, y: 20 });
 
   const tl = gsap.timeline({ defaults: { ease: "expo.out" } });
   
-  // Set initial opacities
   layers.forEach((layer, i) => {
-    if (i === 0) return; // Front layer
+    if (i === 0) return;
     gsap.set(layer, { opacity: Math.max(0.04, 1 - (i * 0.18)) });
   });
 
@@ -28,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
   .to(msg, { opacity: 0.8, y: 0, duration: 1.5 }, "-=1.5")
   .to(btn, { opacity: 1, y: 0, duration: 1.5 }, "-=1.3");
 
-  // Mouse Parallax for Cascade Layers
+  // Mouse parallax effect
   let mouseX = 0;
   let mouseY = 0;
   let targetX = 0;
@@ -55,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Custom text scramble on hover
+  // Text scramble effect on hover
   if (msg && cascade) {
     const originalText = msg.innerText;
     const chars = "!<>-_\\/[]{}—=+*^?#_";

@@ -28,14 +28,14 @@
   font-weight: 600;
   line-height: 1;
   letter-spacing: -0.08em;
-  padding-right: 0.08em; /* Balances the negative tracking to restore perfect horizontal center */
+  padding-right: 0.08em; /* Balance negative tracking to center align */
   color: transparent;
   -webkit-text-stroke: 1.5px var(--color-surface-muted);
   white-space: nowrap;
   will-change: transform;
 }
 
-/* Base style for the front layer */
+/* Front layer */
 .not-found__layer:nth-child(1) {
   -webkit-text-stroke-color: var(--color-primary-vivid);
   z-index: 10;

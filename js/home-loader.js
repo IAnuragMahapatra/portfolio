@@ -1,4 +1,4 @@
-// Populates the home page dynamic sections (works accordion, skills stack, latest writing)
+// Populate dynamic sections (works, skills, blog entries)
 
 (function () {
   'use strict';
@@ -123,7 +123,7 @@
     } catch (err) {
       console.error('[home-loader] Failed to load portfolio data:', err);
     } finally {
-      // Fire an event to let home.js know it can safely bind DOM animations
+      // Trigger event for home.js to bind animations
       document.dispatchEvent(new Event('homeDataLoaded'));
       if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
       if (typeof window.scrollToHash === 'function') {

@@ -59,7 +59,6 @@ const initProjectShowcase = () => {
 };
 
 document.addEventListener('workDataLoaded', () => {
-  // work-loader.js injects the rows and calls ScrollTrigger.refresh()
-  // this listener wires up GSAP animations after the DOM is ready
+  // Initialize animations after work-loader injects the showcase
   initProjectShowcase();
 });

@@ -186,10 +186,10 @@
 }
 
 
-/* STACK / CAPABILITIES Recruiter friendly spec sheet style. */
+/* Stack / Capabilities section */
 
 .stack {
-  /* Navigation bar is fixed 78px tall. When stack is scrolled to with nav height offset section top sits at nav bottom. Subtracting 8vh from height and adding it as margin bottom compresses available height for grid reducing spaces between rows while leaving empty margin at bottom of viewport. */
+  /* Fixed 78px nav offset. Subtracting 8vh compresses grid spacing for better view. */
   height: calc(100vh - var(--nav-height) - 8vh);
   margin-bottom: 8vh;
   padding: 2vh 2.5vw;

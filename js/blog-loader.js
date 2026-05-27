@@ -1,4 +1,4 @@
-// Populates blog feed by fetching and sorting entries from posts database
+// Populate blog feed
 
 (function () {
   'use strict';
@@ -38,7 +38,7 @@
     try {
       const posts = await window.fetchData('posts.json', 'json', false);
 
-      // Sort by date newest first and filter for live content only
+      // Filter published posts and sort by newest first
       const published = posts
         .filter(p => p.status === 'published')
         .sort((a, b) => new Date(b.date) - new Date(a.date));

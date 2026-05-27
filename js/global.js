@@ -6,22 +6,15 @@ if ('serviceWorker' in navigator) {
   });
 }
 
-// Global configuration
+// Global config
 window.CONFIG = {
-  // Set to 'https://cdn.ianurag.site/' for production CDN
-  // If null, scripts will fall back to their local relative paths
+  // Set to 'https://cdn.ianurag.site/' for production CDN, else local relative paths
   DATA_BASE_URL: 'https://cdn.ianurag.site/',
   FETCH_TIMEOUT: 4000,
   MAX_RETRIES: 1
 };
 
-/**
- * Standardized data fetching utility with timeout and automatic retries.
- * @param {string} path - The relative path to the data file.
- * @param {string} type - 'json' or 'text'.
- * @param {boolean} isCritical - If true, failed fetches will redirect to 404.html.
- * @returns {Promise<any>}
- */
+// Data fetcher with timeout and auto retries
 window.fetchData = async function(path, type = 'json', isCritical = true) {
   const baseUrl = window.CONFIG.DATA_BASE_URL;
   let finalUrl;
@@ -66,9 +59,7 @@ window.fetchData = async function(path, type = 'json', isCritical = true) {
   }
 };
 
-/**
- * Renders an inline error boundary if a non-critical component fails to load.
- */
+// Render error boundary for non-critical failures
 window.renderErrorBoundary = function(selector, message = "Content temporarily unavailable.") {
   const container = document.querySelector(selector);
   if (container) {
@@ -83,9 +74,7 @@ window.renderErrorBoundary = function(selector, message = "Content temporarily u
 
 gsap.registerPlugin(ScrollTrigger);
 
-// If the user navigates back or forward, the page loads from bfcache.
-// This makes the GSAP and ScrollTrigger state outdated since animations get stuck.
-// We must clear stale ScrollTriggers and reinitialize the scroll animations.
+// Clear stale ScrollTriggers and refresh animations on bfcache load
 window.addEventListener('pageshow', (e) => {
   if (e.persisted) {
     // Clear old ScrollTrigger instances since hero and navigation elements are already visible
@@ -172,7 +161,6 @@ gsap.ticker.lagSmoothing(0, 0);
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', function (e) {
     const href = this.getAttribute('href');
-    // Verify the selector format is valid to prevent errors
     if (!href || !/^#[a-zA-Z][\w-]*$/.test(href)) return;
     const target = document.getElementById(href.slice(1));
     if (target) {
@@ -292,7 +280,7 @@ sections.forEach((section, index) => {
   });
 });
 
-// Section tracker is placed under the footer using CSS properties
+// Section tracker updates
 
 
 const initTime = () => {
@@ -304,9 +292,6 @@ const initTime = () => {
   tick();
   setInterval(tick, 1000);
 };
-
-
-// Blueprint mode is defined in js/blueprint.js
 
 
 const initPageHero = () => {
@@ -382,7 +367,7 @@ window.scrollToHash = () => {
         requestAnimationFrame(() => {
           ScrollTrigger.refresh();
           lenis.resize();
-          // Retrieve the navigation height from CSS variables
+          // Get nav height from CSS variable
           const navHeight = parseInt(
             getComputedStyle(document.documentElement).getPropertyValue('--nav-height')
           ) || 78;
@@ -395,7 +380,7 @@ window.scrollToHash = () => {
 };
 
 const initEasterEggs = () => {
-  // Easter Egg 1: Last Visited Notification
+  // welcome back notification
   const now = Date.now();
   const lastVisit = localStorage.getItem('last_visit');
   if (lastVisit) {
@@ -449,7 +434,7 @@ const initEasterEggs = () => {
   }
   localStorage.setItem('last_visit', now.toString());
 
-  // Easter Egg 2: Console Greeting
+  // console greeting
   console.log(
     "%chey, dev\n\nglad you looked under the hood.\n\n→ hold [space] anywhere to enter Blueprint Mode\n→ explore section 6 on the home page to find Behind the Code\n→ got feedback or thoughts on the site? feel free to drop a mail\n→ if you’d like to work together, please reach out through the contact section\n\nhope you have an amazing day.\n— Anurag Mahapatra\n",
     "color: oklch(65% 0.16 250); font-size: 14px; line-height: 1.8;"
@@ -469,10 +454,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (typeof initBlueprint === 'function') initBlueprint();
   initEasterEggs();
 
-  // We do not call scrollToHash on the home page yet.
-  // The home script runs it after loading the work and skill data.
-  // This ensures the layout is fully settled before calculating scroll positions.
-  // We can call it immediately for static pages like work, blog or posts.
+  // Home page runs this after loading data, but static pages can run immediately
   if (!document.getElementById('workAccordion')) {
     window.scrollToHash();
   }

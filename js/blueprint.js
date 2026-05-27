@@ -1,17 +1,14 @@
-// Press & hold spacebar to inspect the layout design specs
+// hold space to inspect layout specs
 const initBlueprint = () => {
-  // State
   let isActive = false;
   let isLocked = false;
   let isSpaceDown = false;
 
-  // Settings & filters
   const SKIP_TAGS = new Set([
     'SCRIPT', 'STYLE', 'BR', 'SVG', 'PATH',
     'FILTER', 'FETURBULENCE', 'FEDISPLACEMENTMAP'
   ]);
 
-  // Skip visual elements that clutter the overlay
   const SKIP_CLASSES = [
     '.proj-tag', '.proj-num', '.stack-label', '.stack-num', '.page-hero__index',
     '.proj-stack', '.project-meta', '.project-links',
@@ -20,7 +17,6 @@ const initBlueprint = () => {
 
   const TYPO_TAGS = new Set(['H1','H2','H3','H4','H5','H6','P','BUTTON','A']);
 
-  // Helpers
   const shortFont = (f) => f.split(',')[0].replace(/['"]/g, '').trim();
 
   const hintEl = document.getElementById('tracker-hint');
@@ -29,20 +25,17 @@ const initBlueprint = () => {
   const hasDirectText = (el) =>
     [...el.childNodes].some(n => n.nodeType === 3 && n.textContent.trim().length > 0);
 
-  // Decide if we should label this element
   const shouldAnnotate = (el) => {
     if (SKIP_TAGS.has(el.tagName)) return false;
     if (SKIP_CLASSES.some(sel => el.matches && el.matches(sel))) return false;
     if (el.classList.contains('bp-label') || el.classList.contains('bp-spacing')) return false;
 
-    // Ignore tiny leaf symbols like arrows or bullet points
     if (hasDirectText(el) && el.children.length === 0 && el.textContent.trim().length <= 3) return false;
 
     const s = getComputedStyle(el);
     if (s.display === 'none' || s.visibility === 'hidden') return false;
     if (s.display === 'inline' && el.tagName !== 'BUTTON') return false;
 
-    // Ignore tiny structural wrappers
     const rect = el.getBoundingClientRect();
     if (rect.width < 50 || rect.height < 15) return false;
 
@@ -53,7 +46,6 @@ const initBlueprint = () => {
     const parts = [];
     const s = getComputedStyle(el);
 
-    // Skip plain numbers or dates
     if (hasDirectText(el) && /^[\d\.\-\/]+$/.test(el.textContent.trim())) return '';
 
     if (TYPO_TAGS.has(el.tagName) || (el.classList && (el.classList.contains('stack-items') || el.classList.contains('writing-read') || el.classList.contains('hero-title-core')))) {
@@ -74,7 +66,7 @@ const initBlueprint = () => {
   };
 
   const annotateElement = (el) => {
-    // Only label the first matching sibling to keep the view clean
+    // Label first sibling only
     if (el.parentElement && el.classList.length > 0) {
       try {
         const classes = [...el.classList].map(c => CSS.escape(c)).join('.');
@@ -88,7 +80,7 @@ const initBlueprint = () => {
     const desc = describeElement(el);
     if (!desc) return;
 
-    // Attach label to parent if clipping hides the current element
+    // Use parent for label if child has clip-path
     let labelHost = el;
     const cp = getComputedStyle(el).clipPath;
     if (cp && cp !== 'none') {
@@ -108,7 +100,7 @@ const initBlueprint = () => {
     label.textContent = desc;
     labelHost.appendChild(label);
 
-    // Keep labels on-screen if they overflow the right edge
+    // Avoid right overflow
     const rect = label.getBoundingClientRect();
     if (rect.right > window.innerWidth) {
       const overflow = rect.right - window.innerWidth + 8;
@@ -116,7 +108,6 @@ const initBlueprint = () => {
     }
   };
 
-  // Section padding & title wrapper overlays
   const annotateSections = () => {
     document.querySelectorAll('section').forEach(section => {
       const cs = getComputedStyle(section);
@@ -134,7 +125,6 @@ const initBlueprint = () => {
       }
     });
 
-    // Special outline for the hero section wrapper
     const heroWrapper = document.querySelector('.hero-title-wrapper');
     const heroTop = document.querySelector('.hero-title-top');
     if (heroWrapper && heroTop) {
@@ -155,7 +145,6 @@ const initBlueprint = () => {
     }
   };
 
-  // Draw / clean overlay elements
   const createAnnotations = () => {
     removeAnnotations();
 
@@ -181,7 +170,6 @@ const initBlueprint = () => {
     setHint('HOLD SPACE');
   };
 
-  // Keyboard controls
   window.addEventListener('keydown', (e) => {
     if (e.code === 'Escape') {
       if (isActive) {

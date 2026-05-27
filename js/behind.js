@@ -1,4 +1,4 @@
-// Logic for behind the code interactive modules and transitions
+// behind the code interactive modules and transitions
 
 (function () {
   'use strict';
@@ -382,7 +382,7 @@
   };
 
   document.addEventListener('btcDataLoaded', () => {
-    // Easter Egg: Console Greeting
+    // console greeting
     console.log(
       "%chey, dev\n\nglad you looked under the hood.\n\n→ hold [space] anywhere to enter Blueprint Mode\n→ explore section 6 on the home page to find Behind the Code\n→ got feedback or thoughts on the site? feel free to drop a mail\n→ if you’d like to work together, please reach out through the contact section\n\nhope you have an amazing day.\n— Anurag Mahapatra\n",
       "color: oklch(65% 0.16 250); font-size: 14px; line-height: 1.8;"

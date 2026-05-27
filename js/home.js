@@ -37,7 +37,7 @@ const initHero = () => {
     const closeHero = () => {
       if (!isOpen) return;
       isOpen = false;
-      // Prevent layout thrashing from overlapping animations
+      // Prevent overlapping animation layouts
       gsap.to('.hero-title-core', { opacity: 0, duration: 0.2, ease: "power2.in", overwrite: true });
       gsap.to('.hero-title-top', { y: 0, duration: 0.4, delay: 0.15, ease: "power3.inOut", overwrite: true });
       gsap.to('.hero-title-bottom', { y: 0, duration: 0.4, delay: 0.15, ease: "power3.inOut", overwrite: true });
@@ -128,7 +128,7 @@ const initAccordion = () => {
   let pendingItem = null;
   let lastMouseMoveTime = Date.now();
 
-  // Detect active mouse movement to ignore passive scroll hovers
+  // Ignore passive scroll hovers
   document.addEventListener('mousemove', () => {
     lastMouseMoveTime = Date.now();
   });
@@ -163,7 +163,7 @@ const initAccordion = () => {
       .fromTo(img, { scale: 1.15 }, { scale: 1, duration: 0.7 }, "<");
 
     item.addEventListener('mouseenter', () => {
-      // Avoid layout jitter if mouse is stationary while scrolling
+      // Avoid scroll layout jitter
       if (Date.now() - lastMouseMoveTime > 100) return;
 
       pendingItem = item;
@@ -211,7 +211,7 @@ const initAccordion = () => {
   const accordionContainer = document.querySelector('.accordion');
   if (accordionContainer) {
     accordionContainer.addEventListener('mouseleave', () => {
-      // Persistent hover state if mouse has not moved prevents flickering
+      // Persistent hover avoids flickering
       if (Date.now() - lastMouseMoveTime > 100) return;
 
       pendingItem = null;
@@ -353,6 +353,4 @@ document.addEventListener('homeDataLoaded', () => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-  // If no home-loader is present (e.g. static pages), fallback to normal init
-  // But since home.js is only on the home page, this is safe.
 });

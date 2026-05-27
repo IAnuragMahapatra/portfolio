@@ -11,8 +11,8 @@ window.CONFIG = {
   // Set to 'https://cdn.ianurag.site/' for production CDN
   // If null, scripts will fall back to their local relative paths
   DATA_BASE_URL: 'https://cdn.ianurag.site/',
-  FETCH_TIMEOUT: 8000,
-  MAX_RETRIES: 2
+  FETCH_TIMEOUT: 4000,
+  MAX_RETRIES: 1
 };
 
 /**

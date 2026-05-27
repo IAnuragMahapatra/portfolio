@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'v4';
+const CACHE_VERSION = 'v5';
 const CACHE_NAME = `portfolio-cache-${CACHE_VERSION}`;
 
 // Core assets to pre-cache (App Shell)

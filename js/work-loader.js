@@ -3,9 +3,6 @@
 (function () {
   'use strict';
 
-  const getUrl = (path) => (window.CONFIG && window.CONFIG.DATA_BASE_URL) ? window.CONFIG.DATA_BASE_URL + path : '../data/' + path;
-  const DATA_PATH = getUrl('works.json');
-
   const showcase = document.getElementById('projectShowcase');
   if (!showcase) return;
 
@@ -58,9 +55,7 @@
 
   async function loadShowcase() {
     try {
-      const res = await fetch(DATA_PATH);
-      if (!res.ok) throw new Error(res.statusText);
-      const works = await res.json();
+      const works = await window.fetchData('works.json', 'json', false);
 
       // Update hero eyebrow count from total project length
       const countLabel = document.getElementById('work-count-label');
@@ -73,7 +68,7 @@
 
     } catch (err) {
       console.warn('[work-loader] Could not load works.json:', err.message);
-      window.location.href = '../404.html';
+      window.renderErrorBoundary('#projectShowcase', 'Project catalogue is temporarily unavailable.');
     } finally {
       document.dispatchEvent(new Event('workDataLoaded'));
       if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();

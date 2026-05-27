@@ -3,8 +3,6 @@
 (function () {
   'use strict';
 
-  const getUrl = (path) => (window.CONFIG && window.CONFIG.DATA_BASE_URL) ? window.CONFIG.DATA_BASE_URL + path : '../data/' + path;
-  const DATA_PATH = getUrl('posts.json');
   const POST_PAGE = 'post.html';
 
   const feedEl = document.querySelector('.blog-feed');
@@ -38,9 +36,7 @@
 
   async function loadFeed() {
     try {
-      const res = await fetch(DATA_PATH);
-      if (!res.ok) throw new Error(res.statusText);
-      const posts = await res.json();
+      const posts = await window.fetchData('posts.json', 'json', false);
 
       // Sort by date newest first and filter for live content only
       const published = posts
@@ -66,7 +62,7 @@
 
     } catch (err) {
       console.warn('[blog-loader] Could not load posts.json:', err.message);
-      window.location.href = '../404.html';
+      window.renderErrorBoundary('.blog-feed', 'Writing feed is temporarily unavailable.');
     } finally {
       document.dispatchEvent(new Event('blogDataLoaded'));
       if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();

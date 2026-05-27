@@ -2,9 +2,6 @@
 (function () {
   'use strict';
 
-  const getUrl = (path) => (window.CONFIG && window.CONFIG.DATA_BASE_URL) ? window.CONFIG.DATA_BASE_URL + path : '../data/' + path;
-  const DATA_DIR = getUrl('posts/');
-
   function parseFrontmatter(raw) {
     const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
     if (!match) return { meta: {}, body: raw };
@@ -218,7 +215,13 @@
       let finalSrc = src;
       if (!/^https?:\/\//i.test(src) && !src.startsWith('/') && !src.startsWith('data:')) {
         const slug = new URLSearchParams(window.location.search).get('slug') || '';
-        finalSrc = '../data/posts/' + slug + '/' + src.replace(/^\.\//, '');
+        
+        // Use CDN resolution here if CONFIG is set, else local fallback
+        if (window.CONFIG && window.CONFIG.DATA_BASE_URL) {
+          finalSrc = window.CONFIG.DATA_BASE_URL.replace(/\/$/, '') + '/posts/' + slug + '/' + src.replace(/^\.\//, '');
+        } else {
+          finalSrc = '../data/posts/' + slug + '/' + src.replace(/^\.\//, '');
+        }
       }
       return "<img src=\"" + esc(finalSrc) + "\" alt=\"" + esc(alt) + "\" class=\"post-image\" loading=\"lazy\">";
     });
@@ -378,9 +381,7 @@
     }
 
     try {
-      const res = await fetch(`${DATA_DIR}${encodeURIComponent(slug)}/${encodeURIComponent(slug)}.md`);
-      if (!res.ok) throw new Error(res.statusText);
-      const raw = await res.text();
+      const raw = await window.fetchData('posts/' + encodeURIComponent(slug) + '/' + encodeURIComponent(slug) + '.md', 'text', true);
 
       const { meta, body } = parseFrontmatter(raw);
       const bodyHtml = renderMarkdown(body);
@@ -393,8 +394,8 @@
       }
 
     } catch (err) {
+      // fetchData already redirects on critical failure, so we don't need to duplicate it here
       console.warn('[post-loader] Could not load post:', err.message);
-      window.location.href = '../404.html';
     } finally {
       if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
       if (typeof window.scrollToHash === 'function') {

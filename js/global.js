@@ -1,8 +1,76 @@
 // Global configuration
 window.CONFIG = {
-  // Change this to 'https://cdn.ianurag.site/data/' when deploying the CDN
-  // If null, scripts will fall back to their local relative paths ('data/...' or '../data/...')
-  DATA_BASE_URL: null
+  // Set to 'https://cdn.ianurag.site/data/' for production CDN
+  // If null, scripts will fall back to their local relative paths
+  DATA_BASE_URL: 'https://cdn.ianurag.site/data/',
+  FETCH_TIMEOUT: 8000,
+  MAX_RETRIES: 2
+};
+
+/**
+ * Standardized data fetching utility with timeout and automatic retries.
+ * @param {string} path - The relative path to the data file.
+ * @param {string} type - 'json' or 'text'.
+ * @param {boolean} isCritical - If true, failed fetches will redirect to 404.html.
+ * @returns {Promise<any>}
+ */
+window.fetchData = async function(path, type = 'json', isCritical = true) {
+  const baseUrl = window.CONFIG.DATA_BASE_URL;
+  let finalUrl;
+
+  if (baseUrl) {
+    finalUrl = baseUrl.replace(/\/$/, '') + '/' + path.replace(/^\//, '');
+  } else {
+    const isRoot = window.location.pathname === '/' || window.location.pathname.endsWith('index.html') || window.location.pathname.endsWith('404.html');
+    finalUrl = (isRoot ? 'data/' : '../data/') + path;
+  }
+
+  let retries = window.CONFIG.MAX_RETRIES;
+
+  while (retries >= 0) {
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), window.CONFIG.FETCH_TIMEOUT);
+
+      const response = await fetch(finalUrl, { signal: controller.signal });
+      clearTimeout(timeoutId);
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
+      return type === 'json' ? await response.json() : await response.text();
+    } catch (error) {
+      retries--;
+      if (retries < 0) {
+        if (isCritical) {
+          console.error(`[fetchData] Critical fetch failed for ${finalUrl}:`, error);
+          const isRoot = window.location.pathname === '/' || window.location.pathname.endsWith('index.html') || window.location.pathname.endsWith('404.html');
+          window.location.href = (isRoot ? '' : '../') + '404.html';
+        } else {
+          console.warn(`[fetchData] Non-critical fetch failed for ${finalUrl}:`, error);
+          throw error;
+        }
+      } else {
+        await new Promise(r => setTimeout(r, 500));
+      }
+    }
+  }
+};
+
+/**
+ * Renders an inline error boundary if a non-critical component fails to load.
+ */
+window.renderErrorBoundary = function(selector, message = "Content temporarily unavailable.") {
+  const container = document.querySelector(selector);
+  if (container) {
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'error-boundary';
+    errorDiv.style.cssText = 'width: 100%; grid-column: 1 / -1; padding: 2rem; border: 1px dashed var(--color-surface-muted); color: var(--color-on-surface); font-family: var(--font-mono); font-size: var(--text-sm); text-align: center; opacity: 0.6;';
+    errorDiv.textContent = message;
+    container.innerHTML = '';
+    container.appendChild(errorDiv);
+  }
 };
 
 gsap.registerPlugin(ScrollTrigger);

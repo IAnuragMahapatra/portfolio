@@ -11,12 +11,7 @@
 
   const loadBtcData = async () => {
     try {
-      const res = await fetch('../data/btc.json');
-      if (!res.ok) {
-        window.location.href = '../404.html';
-        return;
-      }
-      const btc = await res.json();
+      const btc = await window.fetchData('btc.json', 'json', false);
 
       // Inject raw HTML for bio formatting sourced from local JSON
       const heroBio = document.getElementById('heroBio');
@@ -89,7 +84,7 @@
       }
     } catch (err) {
       console.error('Failed to load BTC data:', err);
-      window.location.href = '../404.html';
+      window.renderErrorBoundary('main', 'Behind The Code data is temporarily unavailable.');
     } finally {
       document.dispatchEvent(new Event('btcDataLoaded'));
       if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();

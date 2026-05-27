@@ -9,24 +9,24 @@
     return d.innerHTML;
   }
 
-  // Construct URLs using the global CDN config if set, otherwise fallback to local relative paths
-  function getUrl(path) {
-    if (window.CONFIG && window.CONFIG.DATA_BASE_URL) {
-      return window.CONFIG.DATA_BASE_URL + path;
-    }
-    return 'data/' + path;
-  }
-
   async function loadHomeData() {
     try {
-      const [worksRes, skillsRes, postsRes] = await Promise.all([
-        fetch(getUrl('works.json')).catch(() => ({ ok: false })),
-        fetch(getUrl('skills.json')).catch(() => ({ ok: false })),
-        fetch(getUrl('posts.json')).catch(() => ({ ok: false }))
+      const [works, skills, allPosts] = await Promise.all([
+        window.fetchData('works.json', 'json', false).catch(err => {
+          window.renderErrorBoundary('#workAccordion', 'Project catalogue is temporarily unavailable.');
+          return null;
+        }),
+        window.fetchData('skills.json', 'json', false).catch(err => {
+          window.renderErrorBoundary('#stackGrid', 'Skills data is temporarily unavailable.');
+          return null;
+        }),
+        window.fetchData('posts.json', 'json', false).catch(err => {
+          window.renderErrorBoundary('.writing-grid', 'Writing feed is temporarily unavailable.');
+          return null;
+        })
       ]);
 
-      if (worksRes.ok) {
-        const works = await worksRes.json();
+      if (works) {
         const workAccordion = document.getElementById('workAccordion');
         if (workAccordion) {
           const featuredWorks = works.filter(function(w) { return w.featured === true; });
@@ -68,8 +68,7 @@
         }
       }
 
-      if (skillsRes.ok) {
-        const skills = await skillsRes.json();
+      if (skills) {
         const stackGrid = document.getElementById('stackGrid');
         if (stackGrid) {
           skills.forEach(function(skill, index) {
@@ -87,8 +86,7 @@
         }
       }
 
-      if (postsRes.ok) {
-        const allPosts = await postsRes.json();
+      if (allPosts) {
         const writingGrid = document.querySelector('.writing-grid');
         if (writingGrid) {
           const latest = allPosts

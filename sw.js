@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'v2';
+const CACHE_VERSION = 'v3';
 const CACHE_NAME = `portfolio-cache-${CACHE_VERSION}`;
 
 // Core assets to pre-cache (App Shell)
@@ -134,7 +134,13 @@ self.addEventListener('fetch', (event) => {
         return networkResponse;
       }).catch((error) => {
         console.warn('[SW] Offline and resource not in cache:', request.url);
-        // Prevent returning undefined, which causes ERR_FAILED
+        // If it's a page navigation, return the custom 404 page from cache
+        if (request.mode === 'navigate') {
+          return caches.match('/404.html').then((cache404) => {
+            return cache404 || new Response('Offline and 404 page not found.', { status: 503 });
+          });
+        }
+        // Otherwise return a standard 503
         return new Response('Offline or Network Error. Please check your connection.', {
           status: 503,
           statusText: 'Service Unavailable',

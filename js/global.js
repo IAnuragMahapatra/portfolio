@@ -390,7 +390,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initEntrance();
   initPageHero();
   initTime();
-  initBlueprint();
+  if (typeof initBlueprint === 'function') initBlueprint();
   initEasterEggs();
 
   // We do not call scrollToHash on the home page yet.

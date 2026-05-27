@@ -1,73 +1,62 @@
-// Blueprint Mode — hold spacebar to reveal the design system
-
+// Press & hold spacebar to inspect the layout design specs
 const initBlueprint = () => {
-  // Disable the blueprint overlay on blog pages for clean reading
-  if (document.querySelector('.post-article')) return;
-
-  // ── State ──
+  // State
   let isActive = false;
   let isLocked = false;
   let isSpaceDown = false;
 
-  // ── Configuration ──
+  // Settings & filters
   const SKIP_TAGS = new Set([
-    'SCRIPT', 'STYLE', 'LINK', 'META', 'BR', 'SVG', 'PATH', 'FILTER',
-    'FETURBULENCE', 'FEDISPLACEMENTMAP', 'HEAD', 'HTML', 'TITLE',
-    'NAV', 'FOOTER'
+    'SCRIPT', 'STYLE', 'BR', 'SVG', 'PATH',
+    'FILTER', 'FETURBULENCE', 'FEDISPLACEMENTMAP'
   ]);
 
-  const SKIP_CLOSEST = ['.cursor', '.section-tracker', '.bg-grid', '.nav', '.footer'];
+  // Skip visual elements that clutter the overlay
   const SKIP_CLASSES = [
     '.proj-tag', '.proj-num', '.stack-label', '.stack-num', '.page-hero__index',
-    '.proj-stack', '.proj-stack li', '.proj-stack span', '.project-meta', '.project-links',
+    '.proj-stack', '.project-meta', '.project-links',
     '.project-num', '.project-tag', '.arrow', '.hero-title'
   ];
 
   const TYPO_TAGS = new Set(['H1','H2','H3','H4','H5','H6','P','BUTTON','A']);
 
-  // ── Helpers ──
+  // Helpers
   const shortFont = (f) => f.split(',')[0].replace(/['"]/g, '').trim();
-  const r = (v) => Math.round(parseFloat(v));
 
   const hintEl = document.getElementById('tracker-hint');
   const setHint = (text) => { if (hintEl) hintEl.textContent = text; };
 
-  // ── Element filtering ──
-  // Pure check — returns true if this element should receive a label.
+  const hasDirectText = (el) =>
+    [...el.childNodes].some(n => n.nodeType === 3 && n.textContent.trim().length > 0);
+
+  // Decide if we should label this element
   const shouldAnnotate = (el) => {
     if (SKIP_TAGS.has(el.tagName)) return false;
-    if (SKIP_CLOSEST.some(sel => el.closest(sel))) return false;
     if (SKIP_CLASSES.some(sel => el.matches && el.matches(sel))) return false;
     if (el.classList.contains('bp-label') || el.classList.contains('bp-spacing')) return false;
 
-    // Ignore leaf elements with very short text (arrows, bullets, etc.)
-    const hasDirectText = [...el.childNodes].some(n => n.nodeType === 3 && n.textContent.trim().length > 0);
-    if (hasDirectText && el.children.length === 0 && el.textContent.trim().length <= 3) return false;
+    // Ignore tiny leaf symbols like arrows or bullet points
+    if (hasDirectText(el) && el.children.length === 0 && el.textContent.trim().length <= 3) return false;
 
     const s = getComputedStyle(el);
     if (s.display === 'none' || s.visibility === 'hidden') return false;
     if (s.display === 'inline' && el.tagName !== 'BUTTON') return false;
 
-    // Skip very small structural elements
+    // Ignore tiny structural wrappers
     const rect = el.getBoundingClientRect();
     if (rect.width < 50 || rect.height < 15) return false;
 
     return true;
   };
 
-  // ── Element description ──
-  // Pure builder — returns a label string or empty.
   const describeElement = (el) => {
     const parts = [];
     const s = getComputedStyle(el);
-    const tag = el.tagName;
 
-    // Skip dates and purely numeric values
-    const text = el.textContent.trim();
-    const hasDirectText = [...el.childNodes].some(n => n.nodeType === 3 && n.textContent.trim().length > 0);
-    if (hasDirectText && /^[\d\.\-\/]+$/.test(text)) return '';
+    // Skip plain numbers or dates
+    if (hasDirectText(el) && /^[\d\.\-\/]+$/.test(el.textContent.trim())) return '';
 
-    if (TYPO_TAGS.has(tag) || (el.classList && el.classList.contains('stack-items'))) {
+    if (TYPO_TAGS.has(el.tagName) || (el.classList && (el.classList.contains('stack-items') || el.classList.contains('writing-read') || el.classList.contains('hero-title-core')))) {
       let lh = s.lineHeight;
       if (lh !== 'normal') lh = Math.round(parseFloat(lh)) + 'px';
       parts.push(shortFont(s.fontFamily) + ' ' + Math.round(parseFloat(s.fontSize)) + 'px / ' + lh);
@@ -84,19 +73,14 @@ const initBlueprint = () => {
     return parts.join(' \u00b7 ');
   };
 
-  // ── Single-element annotation ──
-  // Creates the label DOM node, handles clip-path host relocation and
-  // overflow correction. The seenKeys set tracks duplicate siblings.
-  const annotateElement = (el, seenKeys) => {
-    // Deduplicate siblings sharing the same class combination
+  const annotateElement = (el) => {
+    // Only label the first matching sibling to keep the view clean
     if (el.parentElement && el.classList.length > 0) {
       try {
         const classes = [...el.classList].map(c => CSS.escape(c)).join('.');
         const siblings = el.parentElement.querySelectorAll(':scope > .' + classes);
-        if (siblings.length > 1) {
-          const key = el.parentElement.tagName + '-' + classes;
-          if (seenKeys.has(key)) return;
-          seenKeys.add(key);
+        if (siblings.length > 1 && siblings[0] !== el) {
+          return;
         }
       } catch (e) { }
     }
@@ -104,7 +88,7 @@ const initBlueprint = () => {
     const desc = describeElement(el);
     if (!desc) return;
 
-    // Move label to the parent container if clip-path hides this element
+    // Attach label to parent if clipping hides the current element
     let labelHost = el;
     const cp = getComputedStyle(el).clipPath;
     if (cp && cp !== 'none') {
@@ -124,7 +108,7 @@ const initBlueprint = () => {
     label.textContent = desc;
     labelHost.appendChild(label);
 
-    // Relocate label if it overflows the right edge of the viewport
+    // Keep labels on-screen if they overflow the right edge
     const rect = label.getBoundingClientRect();
     if (rect.right > window.innerWidth) {
       const overflow = rect.right - window.innerWidth + 8;
@@ -132,12 +116,9 @@ const initBlueprint = () => {
     }
   };
 
-  // ── Section-level annotations ──
-  // Adds spacing rulers and the hero wrapper box.
+  // Section padding & title wrapper overlays
   const annotateSections = () => {
     document.querySelectorAll('section').forEach(section => {
-      if (section.closest('.nav') || section.closest('.footer')) return;
-
       const cs = getComputedStyle(section);
       if (cs.position === 'static') {
         section.style.position = 'relative';
@@ -153,11 +134,10 @@ const initBlueprint = () => {
       }
     });
 
-    // Hero wrapper gets a special dashed outline + label
+    // Special outline for the hero section wrapper
     const heroWrapper = document.querySelector('.hero-title-wrapper');
     const heroTop = document.querySelector('.hero-title-top');
-    const heroBottom = document.querySelector('.hero-title-bottom');
-    if (heroWrapper && heroTop && heroBottom) {
+    if (heroWrapper && heroTop) {
       heroWrapper.style.position = 'relative';
 
       const wrapperBox = document.createElement('div');
@@ -175,13 +155,12 @@ const initBlueprint = () => {
     }
   };
 
-  // ── Create / remove all annotations ──
+  // Draw / clean overlay elements
   const createAnnotations = () => {
     removeAnnotations();
 
-    const seenKeys = new Set();
     document.querySelectorAll('section, section *').forEach(el => {
-      if (shouldAnnotate(el)) annotateElement(el, seenKeys);
+      if (shouldAnnotate(el)) annotateElement(el);
     });
 
     annotateSections();
@@ -195,7 +174,6 @@ const initBlueprint = () => {
     });
   };
 
-  // ── Shared deactivation ──
   const deactivate = () => {
     isActive = false;
     document.body.classList.remove('is-blueprint');
@@ -203,7 +181,7 @@ const initBlueprint = () => {
     setHint('HOLD SPACE');
   };
 
-  // ── Keyboard handling ──
+  // Keyboard controls
   window.addEventListener('keydown', (e) => {
     if (e.code === 'Escape') {
       if (isActive) {

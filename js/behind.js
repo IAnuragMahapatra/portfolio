@@ -35,54 +35,7 @@
   document.addEventListener('mouseleave', () => { if (cursor) gsap.to(cursor, { opacity: 0, duration: 0.15 }); });
   document.addEventListener('mouseenter', () => { if (cursor) gsap.to(cursor, { opacity: 1, duration: 0.15 }); });
 
-  const initEntrance = () => {
-    const params = new URLSearchParams(window.location.search);
-    const x = params.has('x') ? parseFloat(params.get('x')) : window.innerWidth / 2;
-    const y = params.has('y') ? parseFloat(params.get('y')) : window.innerHeight / 2;
 
-    const maxRadius = Math.max(
-      Math.hypot(x, y),
-      Math.hypot(window.innerWidth - x, y),
-      Math.hypot(x, window.innerHeight - y),
-      Math.hypot(window.innerWidth - x, window.innerHeight - y)
-    ) + 100;
-
-    let overlay = document.getElementById('btc-entrance-overlay');
-    if (!overlay) {
-      overlay = document.createElement('div');
-      overlay.id = 'btc-entrance-overlay';
-      document.body.appendChild(overlay);
-    }
-    
-    overlay.className = 'btc-transition-overlay';
-    overlay.style.cssText = `
-      position: fixed;
-      inset: 0;
-      z-index: 99999;
-      background: oklch(65% 0.16 250);
-      mask-image: radial-gradient(circle at ${x}px ${y}px, transparent 0px, black 1px);
-      -webkit-mask-image: radial-gradient(circle at ${x}px ${y}px, transparent 0px, black 1px);
-    `;
-
-    const proxy = { r: 0 };
-    gsap.to(proxy, {
-      r: maxRadius,
-      duration: 1.2,
-      ease: 'expo.inOut',
-      delay: 0.1,
-      onUpdate: () => {
-        overlay.style.maskImage = `radial-gradient(circle at ${x}px ${y}px, transparent ${proxy.r}px, black ${proxy.r + 1}px)`;
-        overlay.style.webkitMaskImage = `radial-gradient(circle at ${x}px ${y}px, transparent ${proxy.r}px, black ${proxy.r + 1}px)`;
-      },
-      onComplete: () => {
-        overlay.remove();
-        if (params.has('x')) {
-          const newUrl = window.location.pathname + window.location.hash;
-          window.history.replaceState({}, '', newUrl);
-        }
-      }
-    });
-  };
 
   const initScramble = () => {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -392,7 +345,7 @@
       "color: #888888; font-size: 11px; font-family: monospace;"
     );
 
-    initEntrance();
+
     initScramble();
     initHorizontalGames();
     initVinyl();

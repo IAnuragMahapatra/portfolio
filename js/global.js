@@ -483,3 +483,17 @@ document.addEventListener('DOMContentLoaded', () => {
     window.scrollToHash();
   }
 });
+
+// Handle browser back/forward cache (bfcache) issues where transition overlays remain stuck on the screen
+window.addEventListener('pageshow', (e) => {
+  if (e.persisted) {
+    // Remove any leftover portal overlays
+    document.querySelectorAll('.btc-transition-overlay').forEach(el => el.remove());
+    // Remove the shrink+blur effect applied by home.js when entering the portal
+    gsap.set('main, .nav, .bg-grid, .section-tracker', {
+      clearProps: 'all'
+    });
+    // In case the FOUC mask somehow got stuck during a rapid back-navigation
+    document.documentElement.classList.remove('js-loading');
+  }
+});

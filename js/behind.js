@@ -158,7 +158,8 @@
       gainNode.connect(analyser);
       analyser.connect(audioCtx.destination);
 
-      audioEl = new Audio('../data/song.mp3');
+      const audioUrl = window.CONFIG?.DATA_BASE_URL ? window.CONFIG.DATA_BASE_URL + 'song.mp3' : '../data/song.mp3';
+      audioEl = new Audio(audioUrl);
       audioEl.loop = true;
       source = audioCtx.createMediaElementSource(audioEl);
       source.connect(gainNode);

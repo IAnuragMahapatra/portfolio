@@ -64,6 +64,14 @@ body {
   scrollbar-width: thin;
 }
 
+/* FOUC mask — body is invisible until JS confirms it's ready.
+   The class is added by an inline <head> script on every page,
+   but deliberately skipped when ?x=&y= params are present
+   (BTC portal entrance) so that transition is never interrupted. */
+html.js-loading body {
+  opacity: 0;
+}
+
 a {
   color: inherit;
   text-decoration: none;

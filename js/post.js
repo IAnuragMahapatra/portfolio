@@ -255,6 +255,8 @@
         });
       });
     }
+
+    if (window.revealPage) window.revealPage();
   }
 
   window.__postInit = init;

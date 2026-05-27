@@ -80,4 +80,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }, 30);
     });
   }
+
+  if (window.revealPage) window.revealPage();
 });

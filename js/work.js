@@ -61,4 +61,5 @@ const initProjectShowcase = () => {
 document.addEventListener('workDataLoaded', () => {
   // Initialize animations after work-loader injects the showcase
   initProjectShowcase();
+  if (window.revealPage) window.revealPage();
 });

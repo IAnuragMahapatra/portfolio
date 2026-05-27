@@ -31,9 +31,13 @@
       (function () {
         var params = new URLSearchParams(window.location.search);
         if (params.has("x") && params.has("y")) {
+          // BTC portal entrance — overlay covers everything, skip the FOUC mask
           document.write(
             '<div id="btc-entrance-overlay" style="position: fixed; inset: 0; z-index: 99999; background: oklch(65% 0.16 250);"></div>',
           );
+        } else {
+          // Hide body immediately so GSAP from-states never flash visible
+          document.documentElement.classList.add("js-loading");
         }
       })();
     </script>

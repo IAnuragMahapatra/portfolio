@@ -350,6 +350,7 @@ document.addEventListener('homeDataLoaded', () => {
   initClosing();
   initBehindCode();
   initAccordion();
+  if (window.revealPage) window.revealPage();
 });
 
 document.addEventListener('DOMContentLoaded', () => {

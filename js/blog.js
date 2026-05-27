@@ -31,4 +31,5 @@ const initBlogPage = () => {
 
 document.addEventListener('blogDataLoaded', () => {
   initBlogPage();
+  if (window.revealPage) window.revealPage();
 });

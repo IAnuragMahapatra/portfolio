@@ -444,6 +444,25 @@ const initEasterEggs = () => {
   );
 };
 
+// Generic function to remove the FOUC mask after GSAP initializes
+window.revealPage = () => {
+  if (document.documentElement.classList.contains('js-loading')) {
+    // Small delay to ensure GSAP has painted its initial frame
+    requestAnimationFrame(() => {
+      gsap.to(document.body, { 
+        opacity: 1, 
+        duration: 0.5, 
+        ease: 'power2.out',
+        onComplete: () => {
+          document.documentElement.classList.remove('js-loading');
+          // Clear GSAP inline styles for opacity to prevent layout issues later
+          gsap.set(document.body, { clearProps: 'opacity' });
+        }
+      });
+    });
+  }
+};
+
 document.addEventListener('DOMContentLoaded', () => {
   window.scrollTo(0, 0);
   lenis.scrollTo(0, { immediate: true });

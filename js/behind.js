@@ -400,6 +400,8 @@
     initLightbox();
     initAnimations();
     initBack();
+    
+    if (window.revealPage) window.revealPage();
   });
 
 })();

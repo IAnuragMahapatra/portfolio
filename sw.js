@@ -73,8 +73,8 @@ self.addEventListener('fetch', (event) => {
   }
 
   // Strategy 1: Stale-While-Revalidate for dynamic data (JSON, Markdown)
-  // Check if it's hitting our local data folder or the external CDN data endpoint
-  const isDataRequest = url.pathname.includes('/data/') || url.hostname === 'cdn.ianurag.site';
+  // Check if it's hitting the external CDN or fetching a JSON/Markdown file directly
+  const isDataRequest = url.hostname.includes('cdn.ianurag.site') || url.pathname.endsWith('.json') || url.pathname.endsWith('.md');
 
   if (isDataRequest) {
     event.respondWith(

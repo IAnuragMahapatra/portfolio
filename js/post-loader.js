@@ -215,13 +215,8 @@
       let finalSrc = src;
       if (!/^https?:\/\//i.test(src) && !src.startsWith('/') && !src.startsWith('data:')) {
         const slug = new URLSearchParams(window.location.search).get('slug') || '';
-        
-        // Resolving img path using CDN or local fallback
-        if (window.CONFIG && window.CONFIG.DATA_BASE_URL) {
-          finalSrc = window.CONFIG.DATA_BASE_URL.replace(/\/$/, '') + '/posts/' + slug + '/' + src.replace(/^\.\//, '');
-        } else {
-          finalSrc = '../data/posts/' + slug + '/' + src.replace(/^\.\//, '');
-        }
+        // Always resolve relative image paths through the CDN
+        finalSrc = window.CONFIG.DATA_BASE_URL.replace(/\/$/, '') + '/posts/' + slug + '/' + src.replace(/^\.\//, '');
       }
       return "<img src=\"" + esc(finalSrc) + "\" alt=\"" + esc(alt) + "\" class=\"post-image\" loading=\"lazy\">";
     });
@@ -345,7 +340,7 @@
       }
     } else {
       if (navEl) navEl.style.gridTemplateColumns = '';
-      
+
       if (prevEl) {
         const pData = meta.prev || fallbackData;
         prevEl.href = pData.href;

@@ -6,26 +6,25 @@ if ('serviceWorker' in navigator) {
   });
 }
 
+// ─── Data source ────────────────────────────────────────────────────────────
+// All content (JSON, markdown, assets) is served from this CDN origin.
+// To point at a different environment, change only this one constant.
+const CDN_BASE_URL = 'https://cdn.ianurag.site';
+
 // Global config
 window.CONFIG = {
-  // Set to 'https://cdn.ianurag.site/' for production CDN, else local relative paths
-  DATA_BASE_URL: 'https://cdn.ianurag.site/',
+  DATA_BASE_URL: CDN_BASE_URL,
   FETCH_TIMEOUT: 4000,
   MAX_RETRIES: 1
 };
 
-// Data fetcher with timeout and auto retries
+// Data fetcher with timeout and auto retries — always fetches from CDN_BASE_URL
 window.fetchData = async function(path, type = 'json', isCritical = true) {
-  const baseUrl = window.CONFIG.DATA_BASE_URL;
-  let finalUrl;
-
-  if (baseUrl) {
-    finalUrl = baseUrl.replace(/\/$/, '') + '/' + path.replace(/^\//, '');
-  } else {
-    const isRoot = window.location.pathname === '/' || window.location.pathname.endsWith('index.html') || window.location.pathname.endsWith('404.html');
-    finalUrl = (isRoot ? 'data/' : '../data/') + path;
+  if (!window.CONFIG.DATA_BASE_URL) {
+    throw new Error('[fetchData] DATA_BASE_URL is not set. Check CDN_BASE_URL in global.js.');
   }
 
+  const finalUrl = window.CONFIG.DATA_BASE_URL.replace(/\/$/, '') + '/' + path.replace(/^\//, '');
   let retries = window.CONFIG.MAX_RETRIES;
 
   while (retries >= 0) {
@@ -37,7 +36,7 @@ window.fetchData = async function(path, type = 'json', isCritical = true) {
       clearTimeout(timeoutId);
 
       if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        throw new Error('HTTP ' + response.status + ': ' + response.statusText);
       }
 
       return type === 'json' ? await response.json() : await response.text();
@@ -45,11 +44,11 @@ window.fetchData = async function(path, type = 'json', isCritical = true) {
       retries--;
       if (retries < 0) {
         if (isCritical) {
-          console.error(`[fetchData] Critical fetch failed for ${finalUrl}:`, error);
+          console.error('[fetchData] Critical fetch failed for ' + finalUrl + ':', error);
           const isRoot = window.location.pathname === '/' || window.location.pathname.endsWith('index.html') || window.location.pathname.endsWith('404.html');
           window.location.href = (isRoot ? '' : '../') + '404.html';
         } else {
-          console.warn(`[fetchData] Non-critical fetch failed for ${finalUrl}:`, error);
+          console.warn('[fetchData] Non-critical fetch failed for ' + finalUrl + ':', error);
           throw error;
         }
       } else {
@@ -453,6 +452,12 @@ document.addEventListener('DOMContentLoaded', () => {
   initTime();
   if (typeof initBlueprint === 'function') initBlueprint();
   initEasterEggs();
+
+  // Wire resume download link from CDN_BASE_URL — change CDN_BASE_URL once, all pages update
+  const resumeLink = document.getElementById('nav-resume-link');
+  if (resumeLink) {
+    resumeLink.href = window.CONFIG.DATA_BASE_URL.replace(/\/$/, '') + '/resume.pdf';
+  }
 
   // Home page runs this after loading data, but static pages can run immediately
   if (!document.getElementById('workAccordion')) {

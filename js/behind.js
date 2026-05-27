@@ -388,7 +388,10 @@
   const loadBtcData = async () => {
     try {
       const res = await fetch('../data/btc.json');
-      if (!res.ok) return;
+      if (!res.ok) {
+        window.location.href = '../404.html';
+        return;
+      }
       const btc = await res.json();
 
       // Inject raw HTML for bio formatting sourced from local JSON
@@ -462,6 +465,7 @@
       }
     } catch (err) {
       console.error('Failed to load BTC data:', err);
+      window.location.href = '../404.html';
     }
   };
 

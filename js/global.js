@@ -1,3 +1,9 @@
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(err => console.error('[SW] Registration failed:', err));
+  });
+}
+
 // Global configuration
 window.CONFIG = {
   // Set to 'https://cdn.ianurag.site/data/' for production CDN

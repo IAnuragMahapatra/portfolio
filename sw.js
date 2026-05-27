@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'v1';
+const CACHE_VERSION = 'v2';
 const CACHE_NAME = `portfolio-cache-${CACHE_VERSION}`;
 
 // Core assets to pre-cache (App Shell)
@@ -90,6 +90,10 @@ self.addEventListener('fetch', (event) => {
           return networkResponse;
         }).catch((error) => {
           console.warn('[SW] Network fetch failed for data, relying solely on cache.', error);
+          return new Response(JSON.stringify({ error: 'Offline', message: 'Data fetch failed and no cache available.' }), {
+            status: 503,
+            headers: { 'Content-Type': 'application/json' }
+          });
         });
 
         // Return the cached response instantly if we have it, otherwise wait for the network
@@ -103,6 +107,14 @@ self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(request, { ignoreSearch: true }).then((cachedResponse) => {
       if (cachedResponse) {
+        // Fix for ERR_FAILED: Returning a redirected response to a navigation request is blocked by Chrome
+        if (cachedResponse.redirected && request.mode === 'navigate') {
+          return new Response(cachedResponse.body, {
+            status: cachedResponse.status,
+            statusText: cachedResponse.statusText,
+            headers: cachedResponse.headers
+          });
+        }
         return cachedResponse;
       }
 
@@ -122,8 +134,12 @@ self.addEventListener('fetch', (event) => {
         return networkResponse;
       }).catch((error) => {
         console.warn('[SW] Offline and resource not in cache:', request.url);
-        // We could theoretically return a fallback offline page here,
-        // but the core app shell should already be cached.
+        // Prevent returning undefined, which causes ERR_FAILED
+        return new Response('Offline or Network Error. Please check your connection.', {
+          status: 503,
+          statusText: 'Service Unavailable',
+          headers: { 'Content-Type': 'text/plain' }
+        });
       });
     })
   );

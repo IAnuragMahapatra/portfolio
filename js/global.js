@@ -486,9 +486,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Handle browser back/forward cache (bfcache) issues where transition overlays remain stuck on the screen
 window.addEventListener('pageshow', (e) => {
-  if (e.persisted) {
-    // Remove any leftover portal overlays
-    document.querySelectorAll('.btc-transition-overlay').forEach(el => el.remove());
+  const exitOverlays = document.querySelectorAll('.is-exit-overlay');
+  
+  // If we find an exit overlay, we are definitely restoring a previous state, regardless of e.persisted.
+  if (exitOverlays.length > 0 || e.persisted) {
+    // Remove any leftover portal overlays from navigating away
+    exitOverlays.forEach(el => el.remove());
+    
+    // Also catch the entrance overlay just in case it got stuck (but only if we're certain this is a bfcache restore via e.persisted)
+    if (e.persisted) {
+      document.querySelectorAll('#btc-entrance-overlay, .btc-transition-overlay').forEach(el => el.remove());
+    }
+    
     // Remove the shrink+blur effect applied by home.js when entering the portal
     gsap.set('main, .nav, .bg-grid, .section-tracker', {
       clearProps: 'all'

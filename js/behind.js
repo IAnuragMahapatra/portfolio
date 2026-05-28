@@ -315,7 +315,7 @@
       ) + 100;
 
       const overlay = document.createElement('div');
-      overlay.className = 'btc-transition-overlay';
+      overlay.className = 'btc-transition-overlay is-exit-overlay';
       overlay.style.cssText = `
         position: fixed;
         inset: 0;

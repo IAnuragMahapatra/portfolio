@@ -295,6 +295,7 @@ const initBehindCode = () => {
     const y = (e && e.clientY !== undefined) ? e.clientY : (rect.top + rect.height / 2);
 
     const overlay = document.createElement('div');
+    overlay.className = 'btc-transition-overlay is-exit-overlay';
 
     const maxRadius = Math.max(
       Math.hypot(x, y),

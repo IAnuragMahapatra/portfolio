@@ -157,20 +157,21 @@ lenis.on('scroll', ScrollTrigger.update);
 gsap.ticker.add((time) => lenis.raf(time * 1000));
 gsap.ticker.lagSmoothing(0, 0);
 
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function (e) {
-    const href = this.getAttribute('href');
-    if (!href || !/^#[a-zA-Z][\w-]*$/.test(href)) return;
-    const target = document.getElementById(href.slice(1));
-    if (target) {
-      e.preventDefault();
-      const navH = parseInt(
-        getComputedStyle(document.documentElement).getPropertyValue('--nav-height')
-      ) || 78;
-      const offset = target.id === 'contact' ? 0 : -navH;
-      lenis.scrollTo(target, { offset: offset });
-    }
-  });
+document.body.addEventListener('click', function (e) {
+  const anchor = e.target.closest('a[href^="#"]');
+  if (!anchor) return;
+  const href = anchor.getAttribute('href');
+  if (!href || !/^#[a-zA-Z][\w-]*$/.test(href)) return;
+  
+  const target = document.getElementById(href.slice(1));
+  if (target) {
+    e.preventDefault();
+    const navH = parseInt(
+      getComputedStyle(document.documentElement).getPropertyValue('--nav-height')
+    ) || 78;
+    const offset = target.id === 'contact' ? 0 : -navH;
+    lenis.scrollTo(target, { offset: offset });
+  }
 });
 
 const cursor = document.querySelector('.cursor');

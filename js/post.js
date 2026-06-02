@@ -261,6 +261,4 @@
 
   window.__postInit = init;
 
-  init();
-
 })();

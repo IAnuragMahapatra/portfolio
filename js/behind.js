@@ -3,40 +3,6 @@
 (function () {
   'use strict';
 
-
-  const lenis = new Lenis({
-    duration: 1.2,
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    orientation: 'vertical',
-    gestureOrientation: 'vertical',
-    smoothWheel: true,
-    wheelMultiplier: 1,
-    touchMultiplier: 2,
-  });
-  gsap.registerPlugin(ScrollTrigger);
-  lenis.on('scroll', ScrollTrigger.update);
-  gsap.ticker.add((time) => lenis.raf(time * 1000));
-  gsap.ticker.lagSmoothing(0);
-
-  const cursor = document.querySelector('.cursor');
-  if (cursor) gsap.set(cursor, { xPercent: -50, yPercent: -50 });
-  const xSet = cursor ? gsap.quickTo(cursor, 'x', { duration: 0.08, ease: 'power2.out' }) : null;
-  const ySet = cursor ? gsap.quickTo(cursor, 'y', { duration: 0.08, ease: 'power2.out' }) : null;
-
-  window.addEventListener('mousemove', (e) => {
-    if (xSet && ySet) { xSet(e.clientX); ySet(e.clientY); }
-  });
-  document.addEventListener('mouseover', (e) => {
-    if (cursor && e.target.closest('a, button, [data-cursor]')) cursor.classList.add('is-expanded');
-  });
-  document.addEventListener('mouseout', (e) => {
-    if (cursor && e.target.closest('a, button, [data-cursor]')) cursor.classList.remove('is-expanded');
-  });
-  document.addEventListener('mouseleave', () => { if (cursor) gsap.to(cursor, { opacity: 0, duration: 0.15 }); });
-  document.addEventListener('mouseenter', () => { if (cursor) gsap.to(cursor, { opacity: 1, duration: 0.15 }); });
-
-
-
   const initScramble = () => {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     document.querySelectorAll('[data-scramble]').forEach((el, idx) => {
@@ -334,27 +300,16 @@
     });
   };
 
-  document.addEventListener('btcDataLoaded', () => {
-    // console greeting
-    console.log(
-      "%chey, dev\n\nglad you looked under the hood.\n\n→ hold [space] anywhere to enter Blueprint Mode\n→ explore section 6 on the home page to find Behind the Code\n→ got feedback or thoughts on the site? feel free to drop a mail\n→ if you’d like to work together, please reach out through the contact section\n\nhope you have an amazing day.\n— Anurag Mahapatra\n",
-      "color: oklch(65% 0.16 250); font-size: 14px; line-height: 1.8;"
-    );
-    console.log(
-      "%cthanks for visiting",
-      "color: #888888; font-size: 11px; font-family: monospace;"
-    );
+    document.addEventListener('btcDataLoaded', () => {
+      initScramble();
+      initHorizontalGames();
+      initVinyl();
+      initPolaroids();
+      initLightbox();
+      initAnimations();
+      initBack();
 
-
-    initScramble();
-    initHorizontalGames();
-    initVinyl();
-    initPolaroids();
-    initLightbox();
-    initAnimations();
-    initBack();
-    
-    if (window.revealPage) window.revealPage();
-  });
+      if (window.revealPage) window.revealPage();
+    });
 
 })();

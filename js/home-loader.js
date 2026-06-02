@@ -52,7 +52,7 @@
               "<div class=\"accordion-body\">" +
                 "<div class=\"accordion-inner\">" +
                   "<div class=\"proj-text\">" +
-                    "<p>" + esc(work.description) + "</p>" +
+                    "<p>" + (work.description || '') + "</p>" +
                     "<ul class=\"proj-stack\">" + stackList + "</ul>" +
                     linksHtml +
                   "</div>" +
@@ -103,7 +103,7 @@
             const dateStr = dateObj.getFullYear() + '.' + String(dateObj.getMonth() + 1).padStart(2, '0');
 
             const excerptHtml = isFeatured
-              ? "<p class=\"writing-excerpt\">" + esc(post.excerpt) + "</p>" +
+              ? "<p class=\"writing-excerpt\">" + (post.excerpt || '') + "</p>" +
                 "<div class=\"writing-read\">READ ARTICLE <span class=\"arrow\">\u2192</span></div>"
               : '';
 

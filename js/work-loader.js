@@ -43,7 +43,7 @@
             "<span class=\"project-tag\">" + esc(work.tag) + "</span>" +
           "</div>" +
           "<div class=\"project-details\">" +
-            "<p class=\"project-desc\">" + esc(work.description) + "</p>" +
+            "<p class=\"project-desc\">" + (work.description || '') + "</p>" +
             "<div class=\"project-meta\">" +
               "<div class=\"project-stack\">" + stackHtml + "</div>" +
               linksHtml +

@@ -18,10 +18,10 @@
       if (heroBio) {
         heroBio.innerHTML = '';
         heroBio.insertAdjacentHTML('beforeend',
-          "<p>" + esc(btc.hero.bioParagraph1 || '') + "</p>" +
+          "<p>" + (btc.hero.bioParagraph1 || '') + "</p>" +
           "<div class=\"btc-hero__pull\">" + esc(btc.hero.pullQuote) + "</div>" +
-          "<p>" + esc(btc.hero.bioParagraph2 || '') + "</p>" +
-          "<p>" + esc(btc.hero.bioParagraph3 || '') + "</p>"
+          "<p>" + (btc.hero.bioParagraph2 || '') + "</p>" +
+          "<p>" + (btc.hero.bioParagraph3 || '') + "</p>"
         );
       }
 

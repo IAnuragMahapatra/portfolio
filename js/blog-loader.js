@@ -29,7 +29,7 @@
           "<span class=\"blog-post-tag\">" + esc(tags) + "</span>" +
         "</div>" +
         "<" + titleTag + " class=\"blog-post-title\">" + esc(post.title) + "</" + titleTag + ">" +
-        "<p class=\"blog-post-excerpt\">" + esc(post.excerpt) + "</p>" +
+        "<p class=\"blog-post-excerpt\">" + (post.excerpt || '') + "</p>" +
       "</div>" +
     "</a>";
   }

@@ -9,7 +9,10 @@ if ('serviceWorker' in navigator) {
 // ─── Data source ────────────────────────────────────────────────────────────
 // All content (JSON, markdown, assets) is served from this CDN origin.
 // To point at a different environment, change only this one constant.
-const CDN_BASE_URL = 'https://cdn.ianurag.site';
+const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:';
+const CDN_BASE_URL = isLocal 
+  ? (window.location.pathname.includes('/pages/') ? '../data' : './data')
+  : 'https://cdn.ianurag.site';
 
 // Global config
 window.CONFIG = {
@@ -162,7 +165,7 @@ document.body.addEventListener('click', function (e) {
   if (!anchor) return;
   const href = anchor.getAttribute('href');
   if (!href || !/^#[a-zA-Z][\w-]*$/.test(href)) return;
-  
+
   const target = document.getElementById(href.slice(1));
   if (target) {
     e.preventDefault();
@@ -450,9 +453,9 @@ window.revealPage = () => {
   if (document.documentElement.classList.contains('js-loading')) {
     // Small delay to ensure GSAP has painted its initial frame
     requestAnimationFrame(() => {
-      gsap.to(document.body, { 
-        opacity: 1, 
-        duration: 0.5, 
+      gsap.to(document.body, {
+        opacity: 1,
+        duration: 0.5,
         ease: 'power2.out',
         onComplete: () => {
           document.documentElement.classList.remove('js-loading');
@@ -488,17 +491,17 @@ document.addEventListener('DOMContentLoaded', () => {
 // Handle browser back/forward cache (bfcache) issues where transition overlays remain stuck on the screen
 window.addEventListener('pageshow', (e) => {
   const exitOverlays = document.querySelectorAll('.is-exit-overlay');
-  
+
   // If we find an exit overlay, we are definitely restoring a previous state, regardless of e.persisted.
   if (exitOverlays.length > 0 || e.persisted) {
     // Remove any leftover portal overlays from navigating away
     exitOverlays.forEach(el => el.remove());
-    
+
     // Also catch the entrance overlay just in case it got stuck (but only if we're certain this is a bfcache restore via e.persisted)
     if (e.persisted) {
       document.querySelectorAll('#btc-entrance-overlay, .btc-transition-overlay').forEach(el => el.remove());
     }
-    
+
     // Remove the shrink+blur effect applied by home.js when entering the portal
     gsap.set('main, .nav, .bg-grid, .section-tracker', {
       clearProps: 'all'

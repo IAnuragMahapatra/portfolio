@@ -18,17 +18,23 @@
       if (heroBio) {
         heroBio.innerHTML = '';
         heroBio.insertAdjacentHTML('beforeend',
-          "<p>" + (btc.hero.bioParagraph1 || '') + "</p>" +
-          "<div class=\"btc-hero__pull\">" + esc(btc.hero.pullQuote) + "</div>" +
-          "<p>" + (btc.hero.bioParagraph2 || '') + "</p>" +
-          "<p>" + (btc.hero.bioParagraph3 || '') + "</p>"
+          "<p>" + (btc.hero.bioParagraph1 || '').replace(/\n/g, '<br>') + "</p>" +
+          "<p>" + (btc.hero.bioParagraph2 || '').replace(/\n/g, '<br>') + "</p>" +
+          "<div class=\"btc-hero__pull\">" + esc(btc.hero.pullQuote).replace(/\n/g, '<br>') + "</div>" +
+          "<p>" + (btc.hero.bioParagraph3 || '').replace(/\n/g, '<br>') + "</p>"
         );
       }
 
       const heroPhotoWrap = document.getElementById('heroPhotoWrap');
       if (heroPhotoWrap) {
-        const photoContent = btc.hero.photoUrl
-          ? "<img class=\"btc-hero__photo\" src=\"" + esc(btc.hero.photoUrl) + "\" alt=\"" + esc(btc.hero.photoCaption) + "\">"
+        let resolvedPhotoUrl = btc.hero.photoUrl;
+        if (resolvedPhotoUrl && !resolvedPhotoUrl.startsWith('http') && !resolvedPhotoUrl.startsWith('data:')) {
+          const baseUrl = window.CONFIG?.DATA_BASE_URL ? window.CONFIG.DATA_BASE_URL.replace(/\/$/, '') : '../data';
+          resolvedPhotoUrl = baseUrl + '/' + resolvedPhotoUrl;
+        }
+        
+        const photoContent = resolvedPhotoUrl
+          ? "<img class=\"btc-hero__photo\" src=\"" + esc(resolvedPhotoUrl) + "\" alt=\"" + esc(btc.hero.photoCaption) + "\">"
           : "<div class=\"btc-hero__photo-placeholder\">YOUR PHOTO</div>";
         heroPhotoWrap.innerHTML = '';
         heroPhotoWrap.insertAdjacentHTML('beforeend',

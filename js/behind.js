@@ -3,28 +3,6 @@
 (function () {
   'use strict';
 
-  const initScramble = () => {
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    document.querySelectorAll('[data-scramble]').forEach((el, idx) => {
-      const original = el.textContent;
-      const len = original.length;
-      let frame = 0;
-      const totalFrames = 22;
-      const scramble = () => {
-        let result = '';
-        for (let i = 0; i < len; i++) {
-          if (original.charAt(i) === ' ') result += ' ';
-          else if (frame / totalFrames > i / len) result += original.charAt(i);
-          else result += chars.charAt(Math.floor(Math.random() * chars.length));
-        }
-        el.textContent = result;
-        frame++;
-        if (frame <= totalFrames) requestAnimationFrame(scramble);
-      };
-      setTimeout(scramble, 600 + idx * 180);
-    });
-  };
-
   const initHorizontalGames = () => {
     const track = document.getElementById('gamesTrack');
     const pin = document.querySelector('.games-pin');
@@ -77,7 +55,7 @@
       gainNode.connect(analyser);
       analyser.connect(audioCtx.destination);
 
-      const audioUrl = window.CONFIG?.DATA_BASE_URL ? window.CONFIG.DATA_BASE_URL + 'song.mp3' : '../data/song.mp3';
+      const audioUrl = window.CONFIG?.DATA_BASE_URL ? window.CONFIG.DATA_BASE_URL.replace(/\/$/, '') + '/song.mp3' : '../data/song.mp3';
       audioEl = new Audio(audioUrl);
       audioEl.loop = true;
       source = audioCtx.createMediaElementSource(audioEl);
@@ -301,7 +279,6 @@
   };
 
     document.addEventListener('btcDataLoaded', () => {
-      initScramble();
       initHorizontalGames();
       initVinyl();
       initPolaroids();

@@ -76,7 +76,7 @@
       if (polaroidDesk && btc.gallery) {
         polaroidDesk.innerHTML = '';
         polaroidDesk.insertAdjacentHTML('beforeend', btc.gallery.map((pic, i) => 
-          "<div class=\"polaroid polaroid--\" + (i + 1) + \"\" data-cursor=\"expand\">" +
+          "<div class=\"polaroid polaroid--" + (i + 1) + "\" data-cursor=\"expand\">" +
             "<img src=\"" + esc(pic.image) + "\" alt=\"" + esc(pic.alt) + "\" loading=\"lazy\">" +
             "<span class=\"polaroid__caption\">" + esc(pic.caption) + "</span>" +
           "</div>"

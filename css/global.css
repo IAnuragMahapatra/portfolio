@@ -237,7 +237,8 @@ img {
 
 .arrow {
   display: inline-block;
-  transform: translateY(-0.12em);}
+  transform: translateY(-0.12em);
+}
 
 .section-tracker.is-hidden {
   opacity: 0;

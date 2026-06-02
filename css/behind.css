@@ -256,7 +256,7 @@
 
 .btc-lightbox.is-open {
   opacity: 1;
-  pointer-events: all;
+  pointer-events: auto;
 }
 
 .btc-lightbox__inner {

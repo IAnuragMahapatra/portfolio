@@ -33,7 +33,7 @@
 
           const sectionMeta = document.querySelector('#work .section-meta');
           if (sectionMeta && featuredWorks.length > 0) {
-            sectionMeta.textContent = '01\u201300' + featuredWorks.length;
+            sectionMeta.textContent = '01\u2013' + String(featuredWorks.length).padStart(2, '0');
           }
 
           featuredWorks.forEach(function(work) {

@@ -65,8 +65,8 @@
         setupGrid.insertAdjacentHTML('beforeend', btc.hardware.map(item => 
           "<div class=\"setup-card\">" +
             "<span class=\"setup-card__label\">" + esc(item.label) + "</span>" +
-            "<span class=\"setup-card__value\">" + esc(item.value) + "</span>" +
-            "<span class=\"setup-card__detail\">" + esc(item.detail) + "</span>" +
+            "<span class=\"setup-card__value\">" + esc(item.value).replace(/\n/g, '<br>') + "</span>" +
+            "<span class=\"setup-card__detail\">" + esc(item.detail).replace(/\n/g, '<br>') + "</span>" +
           "</div>"
         ).join(''));
       }

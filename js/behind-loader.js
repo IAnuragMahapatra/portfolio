@@ -74,9 +74,11 @@
       const musicTrack = document.getElementById('musicTrack');
       const musicArtist = document.getElementById('musicArtist');
       const musicAlbum = document.getElementById('musicAlbum');
+      const vinylLabelArtist = document.querySelector('.vinyl-label__artist');
       if (musicTrack && btc.music) musicTrack.textContent = btc.music.track;
       if (musicArtist && btc.music) musicArtist.textContent = btc.music.artist;
       if (musicAlbum && btc.music) musicAlbum.textContent = btc.music.album;
+      if (vinylLabelArtist && btc.music) vinylLabelArtist.textContent = btc.music.artist;
 
       const polaroidDesk = document.getElementById('polaroidDesk');
       if (polaroidDesk && btc.gallery) {

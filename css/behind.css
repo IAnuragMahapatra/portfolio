@@ -775,15 +775,17 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: var(--space-xl) var(--space-md);
   border-top: 1px solid var(--btc-border);
 }
 
 .btc-closing__content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-lg);
+  display: grid;
+  place-items: center;
+  width: 100%;
+}
+
+.btc-closing__content > * {
+  grid-area: 1 / 1;
 }
 
 .btc-closing__lead {
@@ -806,35 +808,73 @@
   transition: color 0.4s var(--ease-out);
   display: inline-block;
   white-space: nowrap;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: none;
 }
 
 .btc-closing__word:hover {
   color: oklch(68% 0.18 30);
 }
 
-.btc-closing__socials {
-  display: flex;
-  gap: var(--space-md);
-  flex-wrap: wrap;
-  justify-content: center;
-  position: relative;
-  z-index: 10;
-  margin-top: 2rem;
-}
-
-.btc-closing__social {
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  letter-spacing: 0.08em;
-  color: var(--btc-muted);
-  text-decoration: none;
-  transition: color 0.2s var(--ease-out);
-}
-
-.btc-closing__social:hover {
+/* Map global closing/form variables to local light theme */
+.btc-page .closing-initiate {
   color: var(--btc-accent);
 }
-
+.btc-page .closing-initiate:hover {
+  color: oklch(68% 0.18 30);
+}
+.btc-page .closing-social-link {
+  color: var(--btc-muted);
+}
+.btc-page .closing-social-link:hover {
+  color: var(--btc-accent);
+}
+.btc-page .contact-error {
+  color: var(--btc-accent);
+}
+.btc-page .contact-close {
+  color: var(--btc-dark);
+}
+.btc-page .contact-close:hover {
+  color: var(--btc-accent);
+}
+.btc-page .contact-pill {
+  background: transparent;
+  color: var(--btc-dark);
+}
+.btc-page .contact-pill.is-active {
+  background: transparent;
+  color: var(--btc-accent);
+}
+.btc-page .contact-input-huge {
+  border-bottom-color: var(--btc-border);
+  color: var(--btc-dark);
+}
+.btc-page .contact-textarea-huge {
+  background: rgba(255, 255, 255, 0.4);
+  border-color: var(--btc-border);
+  color: var(--btc-dark);
+}
+.btc-page .contact-input-huge::placeholder,
+.btc-page .contact-textarea-huge::placeholder {
+  color: var(--btc-dark);
+  opacity: 0.5;
+}
+.btc-page .contact-input-huge:focus {
+  border-bottom-color: var(--btc-accent);
+}
+.btc-page .contact-textarea-huge:focus {
+  background: rgba(255, 255, 255, 0.7);
+  border-color: var(--btc-accent);
+}
+.btc-page .contact-submit-huge {
+  color: var(--btc-muted);
+}
+.btc-page .contact-submit-huge:hover {
+  color: var(--btc-accent);
+}
 
 .btc-footer {
   padding: var(--space-lg) var(--space-md) var(--space-md);

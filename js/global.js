@@ -161,6 +161,8 @@ gsap.ticker.add((time) => lenis.raf(time * 1000));
 gsap.ticker.lagSmoothing(0, 0);
 
 document.body.addEventListener('click', function (e) {
+
+
   const anchor = e.target.closest('a[href^="#"]');
   if (!anchor) return;
   const href = anchor.getAttribute('href');
@@ -467,6 +469,148 @@ window.revealPage = () => {
   }
 };
 
+const initContactForm = () => {
+  const trigger = document.querySelector('.closing-initiate');
+  const form = document.getElementById('contactForm');
+  const defaultLayer = document.querySelector('.closing-default');
+  const formLayer = document.querySelector('.closing-form-layer');
+  const closeBtn = document.querySelector('.contact-close');
+  
+  if (!trigger || !form || !defaultLayer || !formLayer) return;
+
+  const handleInput = document.getElementById('contactHandle');
+  const channelInput = document.getElementById('contactChannelInput');
+  const replyToInput = document.getElementById('contactReplyTo');
+  const msgInput = document.getElementById('contactMsg');
+  const errorMsg = document.getElementById('contactError');
+  const submitBtn = form.querySelector('[type="submit"]');
+  const formElements = form.querySelectorAll('.contact-channels, .contact-field, .contact-submit-huge');
+
+  const channelConfig = {
+    email: { placeholder: 'name@example.com' },
+    linkedin: { placeholder: 'linkedin.com/in/...' },
+    x: { placeholder: '@handle' },
+    instagram: { placeholder: '@handle' },
+    other: { placeholder: 'your handle or link' }
+  };
+
+  let isOpen = false;
+
+  const tl = gsap.timeline({ paused: true, defaults: { ease: 'power3.out', duration: 0.5 } });
+  
+  tl.to(defaultLayer, { opacity: 0, y: -20, pointerEvents: 'none' }, 0)
+    .set(formLayer, { visibility: 'visible', pointerEvents: 'auto' }, 0)
+    .fromTo(formLayer, 
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0 }, 
+      0.1
+    );
+
+  trigger.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (!isOpen) {
+      tl.play();
+      isOpen = true;
+    }
+  });
+
+  closeBtn?.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (isOpen) {
+      tl.reverse();
+      isOpen = false;
+    }
+  });
+
+  const pills = form.querySelectorAll('.contact-pill');
+  pills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      pills.forEach(p => p.classList.remove('is-active'));
+      pill.classList.add('is-active');
+      const channel = pill.dataset.channel;
+      channelInput.value = channel;
+      handleInput.placeholder = channelConfig[channel].placeholder;
+      handleInput.disabled = false;
+      handleInput.focus();
+      errorMsg.style.opacity = '0';
+    });
+  });
+
+  // Default to email
+  const emailPill = form.querySelector('[data-channel="email"]');
+  if (emailPill) {
+    emailPill.classList.add('is-active');
+    channelInput.value = 'email';
+    handleInput.placeholder = channelConfig['email'].placeholder;
+    handleInput.disabled = false;
+  }
+
+  // Allow native scrolling inside the textarea without Lenis intercepting
+  msgInput.setAttribute('data-lenis-prevent', 'true');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    errorMsg.style.opacity = '0';
+
+    const channel = channelInput.value;
+    const handle = handleInput.value.trim();
+    const message = msgInput.value.trim();
+
+    if (!channel) {
+      errorMsg.textContent = 'PLEASE SELECT A CHANNEL';
+      errorMsg.style.opacity = '1';
+      return;
+    }
+    if (!handle) {
+      errorMsg.textContent = 'PLEASE PROVIDE YOUR HANDLE OR EMAIL';
+      errorMsg.style.opacity = '1';
+      return;
+    }
+    if (!message) {
+      errorMsg.textContent = 'PLEASE WRITE A MESSAGE';
+      errorMsg.style.opacity = '1';
+      return;
+    }
+
+    if (channel === 'email') {
+      replyToInput.value = handle;
+    }
+
+    submitBtn.classList.add('is-sending');
+    submitBtn.innerHTML = 'SENDING...';
+
+    try {
+      const response = await fetch(form.action, {
+        method: form.method,
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (response.ok) {
+        tl.reverse().then(() => {
+          form.reset();
+          pills.forEach(p => p.classList.remove('is-active'));
+          if (emailPill) {
+            emailPill.classList.add('is-active');
+            channelInput.value = 'email';
+            handleInput.placeholder = channelConfig['email'].placeholder;
+          }
+          isOpen = false;
+          window.showToast?.('message sent.');
+        });
+      } else {
+        throw new Error('Network response was not ok');
+      }
+    } catch (err) {
+      errorMsg.textContent = 'FAILED TO SEND. PLEASE TRY AGAIN.';
+      errorMsg.style.opacity = '1';
+    } finally {
+      submitBtn.classList.remove('is-sending');
+      submitBtn.innerHTML = 'SEND';
+    }
+  });
+};
+
 document.addEventListener('DOMContentLoaded', () => {
   window.scrollTo(0, 0);
   lenis.scrollTo(0, { immediate: true });
@@ -475,6 +619,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initTime();
   if (typeof initBlueprint === 'function') initBlueprint();
   initEasterEggs();
+  initContactForm();
 
   // Wire resume download link from CDN_BASE_URL — change CDN_BASE_URL once, all pages update
   const resumeLink = document.getElementById('nav-resume-link');

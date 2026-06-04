@@ -219,17 +219,19 @@
         data-section="CONTACT"
         data-index="07/07"
       >
-        <div class="closing-content">
+        <div class="closing-default">
           <p class="closing-lead">
             If you've made it this far,<br />you probably care about the details
             too.
           </p>
-          <a
-            href="mailto:anurag2005om@gmail.com"
+          <button
             class="closing-initiate"
             data-cursor="expand"
-            >INITIATE</a
+            type="button"
           >
+            INITIATE
+          </button>
+          
           <div class="closing-socials">
             <a
               href="https://x.com/AnuragM_36"
@@ -256,6 +258,38 @@
               >GITHUB <span class="arrow">↗</span></a
             >
           </div>
+        </div>
+
+        <div class="closing-form-layer">
+          <form class="contact-form" id="contactForm" action="https://formspree.io/f/mnjyqlbl" method="POST">
+            <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+            <input type="hidden" name="_subject" value="Portfolio Contact">
+            <input type="hidden" name="_replyto" id="contactReplyTo">
+            <input type="hidden" name="channel" id="contactChannelInput">
+          
+            <div class="contact-channels" role="radiogroup" aria-label="Preferred channel">
+              <button class="contact-close" type="button" data-cursor="expand" aria-label="Close form">[ CLOSE ]</button>
+              <button type="button" class="contact-pill" data-channel="email">EMAIL</button>
+              <button type="button" class="contact-pill" data-channel="linkedin">LINKEDIN</button>
+              <button type="button" class="contact-pill" data-channel="x">X</button>
+              <button type="button" class="contact-pill" data-channel="instagram">INSTAGRAM</button>
+              <button type="button" class="contact-pill" data-channel="other">OTHER</button>
+            </div>
+          
+            <div class="contact-field">
+              <input class="contact-input-huge" type="text" id="contactHandle" name="handle" placeholder="SELECT CHANNEL FIRST" disabled autocomplete="off">
+            </div>
+          
+            <div class="contact-field">
+              <textarea class="contact-textarea-huge" id="contactMsg" name="message" placeholder="WHAT'S ON YOUR MIND?" rows="1"></textarea>
+            </div>
+          
+            <p class="contact-error" id="contactError" aria-live="polite"></p>
+          
+            <button class="contact-submit-huge" type="submit" data-cursor="expand">
+              SEND
+            </button>
+          </form>
         </div>
       </section>
 

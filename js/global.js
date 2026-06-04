@@ -198,6 +198,15 @@ const cursor = document.querySelector('.cursor');
 let xSetCursor, ySetCursor;
 if (cursor) {
   gsap.set(cursor, { xPercent: -50, yPercent: -50 });
+
+  const params = new URLSearchParams(window.location.search);
+  const lastX = parseFloat(params.get('x'));
+  const lastY = parseFloat(params.get('y'));
+  
+  if (!isNaN(lastX) && !isNaN(lastY)) {
+    gsap.set(cursor, { x: lastX, y: lastY });
+  }
+
   xSetCursor = gsap.quickTo(cursor, "x", { duration: 0.08, ease: "power3" });
   ySetCursor = gsap.quickTo(cursor, "y", { duration: 0.08, ease: "power3" });
 }

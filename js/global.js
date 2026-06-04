@@ -99,6 +99,10 @@ window.renderErrorBoundary = function(selector, message = "Content temporarily u
   }
 };
 
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+
 gsap.registerPlugin(ScrollTrigger);
 
 
@@ -705,16 +709,12 @@ window.addEventListener('pageshow', function(e) {
   // Revert all stale ScrollTriggers instead of killing them to strip GSAP inline styles
   ScrollTrigger.getAll().forEach(function(st) { st.revert(); });
 
-  // Re-initialize page-specific animations and reset scroll within rAF
-  // to ensure browser bfcache scroll restoration doesn't override it
-  requestAnimationFrame(function() {
-    requestAnimationFrame(function() {
-      window.scrollTo(0, 0);
-      lenis.scrollTo(0, { immediate: true });
-      lenis.start();
-      
-      if (typeof window.reinitPage === 'function') window.reinitPage();
-      ScrollTrigger.refresh();
-    });
-  });
+  // Re-initialize page-specific animations and reset scroll immediately
+  // (history.scrollRestoration = 'manual' prevents native scroll jumps)
+  window.scrollTo(0, 0);
+  lenis.scrollTo(0, { immediate: true });
+  lenis.start();
+  
+  if (typeof window.reinitPage === 'function') window.reinitPage();
+  ScrollTrigger.refresh();
 });

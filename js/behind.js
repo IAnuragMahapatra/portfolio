@@ -42,8 +42,14 @@
       vizContainer.appendChild(frag);
     }
 
-    let audioCtx = null, analyser = null, gainNode = null, audioEl = null, source = null;
+    let audioCtx = null, analyser = null, gainNode = null, source = null;
     let isPlaying = false, animFrameId = null;
+
+    const audioUrl = window.CONFIG?.DATA_BASE_URL ? window.CONFIG.DATA_BASE_URL.replace(/\/$/, '') + '/song.mp3' : '../data/song.mp3';
+    const audioEl = new Audio(audioUrl);
+    audioEl.crossOrigin = 'anonymous';
+    audioEl.loop = true;
+    audioEl.preload = 'auto';
 
     const createAudio = () => {
       audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -55,10 +61,6 @@
       gainNode.connect(analyser);
       analyser.connect(audioCtx.destination);
 
-      const audioUrl = window.CONFIG?.DATA_BASE_URL ? window.CONFIG.DATA_BASE_URL.replace(/\/$/, '') + '/song.mp3' : '../data/song.mp3';
-      audioEl = new Audio(audioUrl);
-      audioEl.crossOrigin = 'anonymous';
-      audioEl.loop = true;
       source = audioCtx.createMediaElementSource(audioEl);
       source.connect(gainNode);
     };

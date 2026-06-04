@@ -104,15 +104,7 @@ img {
 }
 
 
-@media (pointer: fine) {
 
-  html,
-  *,
-  *::before,
-  *::after {
-    cursor: none !important;
-  }
-}
 
 .cursor {
   position: fixed;

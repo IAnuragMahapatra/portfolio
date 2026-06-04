@@ -299,6 +299,8 @@ const initBehindCode = () => {
     if (isNavigating) return;
     isNavigating = true;
 
+    document.documentElement.style.setProperty('cursor', 'none', 'important');
+
     // Warm cache concurrently with animation
     fetch('pages/behind.html').catch(() => {});
 

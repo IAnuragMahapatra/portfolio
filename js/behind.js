@@ -250,6 +250,8 @@
       if (isNavigating) return;
       isNavigating = true;
 
+      document.documentElement.style.setProperty('cursor', 'none', 'important');
+
       const rect = backBtn.getBoundingClientRect();
       const x = (e && e.clientX !== undefined) ? e.clientX : (rect.left + rect.width / 2);
       const y = (e && e.clientY !== undefined) ? e.clientY : (rect.top + rect.height / 2);

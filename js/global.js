@@ -197,18 +197,20 @@ document.body.addEventListener('click', function (e) {
 const cursor = document.querySelector('.cursor');
 let xSetCursor, ySetCursor;
 if (cursor) {
-  gsap.set(cursor, { xPercent: -50, yPercent: -50 });
-
-  const params = new URLSearchParams(window.location.search);
-  const lastX = parseFloat(params.get('x'));
-  const lastY = parseFloat(params.get('y'));
-  
-  if (!isNaN(lastX) && !isNaN(lastY)) {
-    gsap.set(cursor, { x: lastX, y: lastY });
-  }
+  gsap.set(cursor, { xPercent: -50, yPercent: -50, opacity: 0 });
 
   xSetCursor = gsap.quickTo(cursor, "x", { duration: 0.08, ease: "power3" });
   ySetCursor = gsap.quickTo(cursor, "y", { duration: 0.08, ease: "power3" });
+
+  function trackCursor(e) {
+    xSetCursor(e.clientX);
+    ySetCursor(e.clientY);
+  }
+
+  window.addEventListener('pointermove', function initCursor(e) {
+    gsap.set(cursor, { x: e.clientX, y: e.clientY, opacity: 1 });
+    window.addEventListener('pointermove', trackCursor);
+  }, { once: true });
 }
 
 const depthMask = document.querySelector('.depth-mask');
@@ -216,11 +218,6 @@ const depthMask = document.querySelector('.depth-mask');
 window.addEventListener('mousemove', (e) => {
   const x = e.clientX;
   const y = e.clientY;
-
-  if (xSetCursor && ySetCursor) {
-    xSetCursor(x);
-    ySetCursor(y);
-  }
 
   document.documentElement.style.setProperty('--mouse-x', `${x}px`);
   document.documentElement.style.setProperty('--mouse-y', `${y}px`);

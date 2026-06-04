@@ -354,5 +354,16 @@ document.addEventListener('homeDataLoaded', () => {
   if (window.revealPage) window.revealPage();
 });
 
+window.reinitPage = function() {
+  initHero();
+  initBlog();
+  initStackRows();
+  initWritingTeaser();
+  initEthos();
+  initClosing();
+  initBehindCode();
+  initAccordion();
+};
+
 document.addEventListener('DOMContentLoaded', () => {
 });

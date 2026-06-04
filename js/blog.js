@@ -33,3 +33,7 @@ document.addEventListener('blogDataLoaded', () => {
   initBlogPage();
   if (window.revealPage) window.revealPage();
 });
+
+window.reinitPage = function() {
+  initBlogPage();
+};

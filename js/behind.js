@@ -292,4 +292,13 @@
       if (window.revealPage) window.revealPage();
     });
 
+    window.reinitPage = function() {
+      initHorizontalGames();
+      initVinyl();
+      initPolaroids();
+      initLightbox();
+      initAnimations();
+      initBack();
+    };
+
 })();

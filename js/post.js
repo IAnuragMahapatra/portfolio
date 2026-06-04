@@ -261,4 +261,8 @@
 
   window.__postInit = init;
 
+  window.reinitPage = function() {
+    init();
+  };
+
 })();

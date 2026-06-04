@@ -22,40 +22,59 @@ window.CONFIG = {
 };
 
 // Data fetcher with timeout and auto retries — always fetches from CDN_BASE_URL
-window.fetchData = async function(path, type = 'json', isCritical = true) {
+window.fetchData = async function(path, type, isCritical) {
+  if (type === undefined) type = 'json';
+  if (isCritical === undefined) isCritical = true;
+
   if (!window.CONFIG.DATA_BASE_URL) {
-    throw new Error('[fetchData] DATA_BASE_URL is not set. Check CDN_BASE_URL in global.js.');
+    throw new Error('[fetchData] DATA_BASE_URL is not set.');
   }
 
-  const finalUrl = window.CONFIG.DATA_BASE_URL.replace(/\/$/, '') + '/' + path.replace(/^\//, '');
-  let retries = window.CONFIG.MAX_RETRIES;
+  // sessionStorage cache for JSON — survives MPA navigations, clears on tab close
+  var cacheKey = 'ssd_' + path;
+  if (type === 'json') {
+    try {
+      var cached = sessionStorage.getItem(cacheKey);
+      if (cached) return JSON.parse(cached);
+    } catch (e) { /* corrupted or quota — fall through to network */ }
+  }
+
+  var finalUrl = window.CONFIG.DATA_BASE_URL.replace(/\/$/, '') + '/' + path.replace(/^\//, '');
+  var retries = window.CONFIG.MAX_RETRIES;
 
   while (retries >= 0) {
     try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), window.CONFIG.FETCH_TIMEOUT);
+      var controller = new AbortController();
+      var timeoutId = setTimeout(function() { controller.abort(); }, window.CONFIG.FETCH_TIMEOUT);
 
-      const response = await fetch(finalUrl, { signal: controller.signal });
+      var response = await fetch(finalUrl, { signal: controller.signal });
       clearTimeout(timeoutId);
 
       if (!response.ok) {
         throw new Error('HTTP ' + response.status + ': ' + response.statusText);
       }
 
-      return type === 'json' ? await response.json() : await response.text();
+      var result = type === 'json' ? await response.json() : await response.text();
+
+      // Cache JSON responses in sessionStorage
+      if (type === 'json' && result) {
+        try { sessionStorage.setItem(cacheKey, JSON.stringify(result)); } catch (e) { /* quota exceeded — skip */ }
+      }
+
+      return result;
     } catch (error) {
       retries--;
       if (retries < 0) {
         if (isCritical) {
           console.error('[fetchData] Critical fetch failed for ' + finalUrl + ':', error);
-          const isRoot = window.location.pathname === '/' || window.location.pathname.endsWith('index.html') || window.location.pathname.endsWith('404.html');
+          var isRoot = window.location.pathname === '/' || window.location.pathname.endsWith('index.html') || window.location.pathname.endsWith('404.html');
           window.location.href = (isRoot ? '' : '../') + '404.html';
         } else {
           console.warn('[fetchData] Non-critical fetch failed for ' + finalUrl + ':', error);
           throw error;
         }
       } else {
-        await new Promise(r => setTimeout(r, 500));
+        await new Promise(function(r) { setTimeout(r, 500); });
       }
     }
   }
@@ -76,21 +95,7 @@ window.renderErrorBoundary = function(selector, message = "Content temporarily u
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Clear stale ScrollTriggers and refresh animations on bfcache load
-window.addEventListener('pageshow', (e) => {
-  if (e.persisted) {
-    // Clear old ScrollTrigger instances since hero and navigation elements are already visible
-    ScrollTrigger.getAll().forEach(st => st.kill());
 
-    window.scrollTo(0, 0);
-    lenis.scrollTo(0, { immediate: true });
-    requestAnimationFrame(() => {
-      if (typeof initEthos === 'function') initEthos();
-      if (typeof initClosing === 'function') initClosing();
-      ScrollTrigger.refresh();
-    });
-  }
-});
 
 const initEntrance = () => {
   const params = new URLSearchParams(window.location.search);
@@ -631,27 +636,75 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!document.getElementById('workAccordion')) {
     window.scrollToHash();
   }
+
+  // Hover-intent prefetch — front-load HTML + JSON on navigation hover
+  var prefetched = new Set();
+  var prefetchTimer;
+
+  document.addEventListener('mouseover', function(e) {
+    var a = e.target.closest('a[href]');
+    if (!a) return;
+
+    clearTimeout(prefetchTimer);
+    prefetchTimer = setTimeout(function() {
+      var href = a.getAttribute('href');
+      if (!href || href.startsWith('#') || href.startsWith('http') || prefetched.has(href)) return;
+      prefetched.add(href);
+
+      // Prefetch the HTML page
+      var link = document.createElement('link');
+      link.rel = 'prefetch';
+      link.href = href;
+      document.head.appendChild(link);
+
+      // Also prefetch the corresponding data JSON if we can infer it
+      var dataMap = {
+        'work.html': 'works.json',
+        'pages/work.html': 'works.json',
+        'blog.html': 'posts.json',
+        'pages/blog.html': 'posts.json'
+      };
+      var jsonFile = dataMap[href] || dataMap[href.replace('../', '').replace('./', '')];
+      if (jsonFile && !prefetched.has(jsonFile)) {
+        prefetched.add(jsonFile);
+        var dataLink = document.createElement('link');
+        dataLink.rel = 'prefetch';
+        dataLink.href = window.CONFIG.DATA_BASE_URL.replace(/\/$/, '') + '/' + jsonFile;
+        document.head.appendChild(dataLink);
+      }
+    }, 120); // 120ms debounce filters noise without losing benefit
+  });
 });
 
-// Handle browser back/forward cache (bfcache) issues where transition overlays remain stuck on the screen
-window.addEventListener('pageshow', (e) => {
-  const exitOverlays = document.querySelectorAll('.is-exit-overlay');
-
-  // If we find an exit overlay, we are definitely restoring a previous state, regardless of e.persisted.
-  if (exitOverlays.length > 0 || e.persisted) {
-    // Remove any leftover portal overlays from navigating away
-    exitOverlays.forEach(el => el.remove());
-
-    // Also catch the entrance overlay just in case it got stuck (but only if we're certain this is a bfcache restore via e.persisted)
-    if (e.persisted) {
-      document.querySelectorAll('#btc-entrance-overlay, .btc-transition-overlay').forEach(el => el.remove());
-    }
-
-    // Remove the shrink+blur effect applied by home.js when entering the portal
-    gsap.set('main, .nav, .bg-grid, .section-tracker', {
-      clearProps: 'all'
-    });
-    // In case the FOUC mask somehow got stuck during a rapid back-navigation
-    document.documentElement.classList.remove('js-loading');
+// Unified bfcache handler — one place to restore page state on back/forward
+window.addEventListener('pageshow', function(e) {
+  // Clean up any exit overlays regardless of bfcache
+  var exitOverlays = document.querySelectorAll('.is-exit-overlay');
+  if (exitOverlays.length > 0) {
+    exitOverlays.forEach(function(el) { el.remove(); });
+    gsap.set('main, .nav, .bg-grid, .section-tracker', { clearProps: 'all' });
   }
+
+  if (!e.persisted) return;
+
+  // Clean entrance overlays too
+  document.querySelectorAll('#btc-entrance-overlay, .btc-transition-overlay')
+    .forEach(function(el) { el.remove(); });
+
+  // Reset visual state
+  gsap.set('main, .nav, .bg-grid, .section-tracker', { clearProps: 'all' });
+  document.documentElement.classList.remove('js-loading');
+
+  // Kill all stale ScrollTriggers
+  ScrollTrigger.getAll().forEach(function(st) { st.kill(); });
+
+  // Reset scroll position
+  window.scrollTo(0, 0);
+  lenis.scrollTo(0, { immediate: true });
+
+  // Re-initialize page-specific animations
+  requestAnimationFrame(function() {
+    if (typeof window.reinitPage === 'function') window.reinitPage();
+    ScrollTrigger.refresh();
+  });
 });

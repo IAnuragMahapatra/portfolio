@@ -63,3 +63,7 @@ document.addEventListener('workDataLoaded', () => {
   initProjectShowcase();
   if (window.revealPage) window.revealPage();
 });
+
+window.reinitPage = function() {
+  initProjectShowcase();
+};

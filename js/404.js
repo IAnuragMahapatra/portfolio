@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+function init404() {
   if (typeof gsap === "undefined") return;
 
   const layers = document.querySelectorAll(".not-found__layer");
@@ -82,4 +82,10 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   if (window.revealPage) window.revealPage();
-});
+}
+
+document.addEventListener("DOMContentLoaded", init404);
+
+window.reinitPage = function() {
+  init404();
+};

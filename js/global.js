@@ -624,7 +624,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Wire resume download link from CDN_BASE_URL — change CDN_BASE_URL once, all pages update
   const resumeLink = document.getElementById('nav-resume-link');
   if (resumeLink) {
-    resumeLink.href = window.CONFIG.DATA_BASE_URL.replace(/\/$/, '') + '/resume.pdf';
+    resumeLink.href = window.CONFIG.DATA_BASE_URL.replace(/\/$/, '') + '/anurag_mahapatra_cv_2026.pdf';
   }
 
   // Home page runs this after loading data, but static pages can run immediately

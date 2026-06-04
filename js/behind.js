@@ -57,6 +57,7 @@
 
       const audioUrl = window.CONFIG?.DATA_BASE_URL ? window.CONFIG.DATA_BASE_URL.replace(/\/$/, '') + '/song.mp3' : '../data/song.mp3';
       audioEl = new Audio(audioUrl);
+      audioEl.crossOrigin = 'anonymous';
       audioEl.loop = true;
       source = audioCtx.createMediaElementSource(audioEl);
       source.connect(gainNode);
@@ -232,7 +233,7 @@
       opacity: 1, y: 0, duration: 0.9, ease: 'power4.out',
       scrollTrigger: { trigger: '.btc-closing', start: 'top 70%' }
     });
-    gsap.fromTo('.btc-closing__socials', { opacity: 0, y: 15 }, {
+    gsap.fromTo('.closing-socials', { opacity: 0, y: 15 }, {
       opacity: 1, y: 0, duration: 0.5, ease: 'power3.out',
       scrollTrigger: { trigger: '.btc-closing', start: 'top 65%' }
     });

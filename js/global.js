@@ -35,8 +35,14 @@ window.fetchData = async function(path, type, isCritical) {
   if (type === 'json') {
     try {
       var cached = sessionStorage.getItem(cacheKey);
-      if (cached) return JSON.parse(cached);
-    } catch (e) { /* corrupted or quota — fall through to network */ }
+      if (cached) {
+        var parsed = JSON.parse(cached);
+        if (parsed && typeof parsed === 'object') return parsed;
+        sessionStorage.removeItem(cacheKey); // bad data, purge it
+      }
+    } catch (e) {
+      sessionStorage.removeItem(cacheKey); // corrupted or quota, purge it
+    }
   }
 
   var finalUrl = window.CONFIG.DATA_BASE_URL.replace(/\/$/, '') + '/' + path.replace(/^\//, '');
@@ -658,13 +664,14 @@ document.addEventListener('DOMContentLoaded', () => {
       document.head.appendChild(link);
 
       // Also prefetch the corresponding data JSON if we can infer it
-      var dataMap = {
-        'work.html': 'works.json',
-        'pages/work.html': 'works.json',
-        'blog.html': 'posts.json',
-        'pages/blog.html': 'posts.json'
-      };
-      var jsonFile = dataMap[href] || dataMap[href.replace('../', '').replace('./', '')];
+      var dataMap = new Map([
+        ['work.html', 'works.json'],
+        ['pages/work.html', 'works.json'],
+        ['blog.html', 'posts.json'],
+        ['pages/blog.html', 'posts.json']
+      ]);
+      var strippedHref = href.replace('../', '').replace('./', '');
+      var jsonFile = dataMap.get(href) || dataMap.get(strippedHref);
       if (jsonFile && !prefetched.has(jsonFile)) {
         prefetched.add(jsonFile);
         var dataLink = document.createElement('link');
@@ -701,10 +708,13 @@ window.addEventListener('pageshow', function(e) {
   // Reset scroll position
   window.scrollTo(0, 0);
   lenis.scrollTo(0, { immediate: true });
+  lenis.start();
 
   // Re-initialize page-specific animations
   requestAnimationFrame(function() {
-    if (typeof window.reinitPage === 'function') window.reinitPage();
-    ScrollTrigger.refresh();
+    requestAnimationFrame(function() {
+      if (typeof window.reinitPage === 'function') window.reinitPage();
+      ScrollTrigger.refresh();
+    });
   });
 });

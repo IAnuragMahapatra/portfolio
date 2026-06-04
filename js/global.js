@@ -702,17 +702,17 @@ window.addEventListener('pageshow', function(e) {
   gsap.set('main, .nav, .bg-grid, .section-tracker', { clearProps: 'all' });
   document.documentElement.classList.remove('js-loading');
 
-  // Kill all stale ScrollTriggers
-  ScrollTrigger.getAll().forEach(function(st) { st.kill(); });
+  // Revert all stale ScrollTriggers instead of killing them to strip GSAP inline styles
+  ScrollTrigger.getAll().forEach(function(st) { st.revert(); });
 
-  // Reset scroll position
-  window.scrollTo(0, 0);
-  lenis.scrollTo(0, { immediate: true });
-  lenis.start();
-
-  // Re-initialize page-specific animations
+  // Re-initialize page-specific animations and reset scroll within rAF
+  // to ensure browser bfcache scroll restoration doesn't override it
   requestAnimationFrame(function() {
     requestAnimationFrame(function() {
+      window.scrollTo(0, 0);
+      lenis.scrollTo(0, { immediate: true });
+      lenis.start();
+      
       if (typeof window.reinitPage === 'function') window.reinitPage();
       ScrollTrigger.refresh();
     });

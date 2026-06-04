@@ -284,11 +284,23 @@ const initBehindCode = () => {
   depthBtn.setAttribute('data-cursor', 'expand');
   depthBtn.style.cursor = 'none';
 
+  depthBtn.addEventListener('mouseenter', () => {
+    ['pages/behind.html', 'css/behind.css', 'js/behind.js'].forEach(url => {
+      const link = document.createElement('link');
+      link.rel = 'prefetch';
+      link.href = url;
+      document.head.appendChild(link);
+    });
+  }, { once: true });
+
   let isNavigating = false;
 
   const navigateToBehind = (e) => {
     if (isNavigating) return;
     isNavigating = true;
+
+    // Warm cache concurrently with animation
+    fetch('pages/behind.html').catch(() => {});
 
     const rect = depthBtn.getBoundingClientRect();
     const x = (e && e.clientX !== undefined) ? e.clientX : (rect.left + rect.width / 2);

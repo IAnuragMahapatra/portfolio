@@ -858,31 +858,14 @@
   background: rgba(255, 255, 255, 0.4);
   border-color: var(--btc-border);
   color: var(--btc-dark);
-  scrollbar-color: auto;
-  scrollbar-width: auto;
-}
-
-.btc-page .contact-textarea-huge::-webkit-scrollbar,
-.btc-page .contact-textarea-huge::-webkit-scrollbar-track,
-.btc-page .contact-textarea-huge::-webkit-scrollbar-thumb {
-  cursor: none !important;
-}
-
-.btc-page .contact-textarea-huge::-webkit-scrollbar {
-  width: 6px;
-}
-
-.btc-page .contact-textarea-huge::-webkit-scrollbar-track {
-  background: transparent;
 }
 
 .btc-page .contact-textarea-huge::-webkit-scrollbar-thumb {
-  background: var(--btc-muted);
-  border-radius: 3px;
+  background-color: var(--btc-muted);
 }
 
 .btc-page .contact-textarea-huge::-webkit-scrollbar-thumb:hover {
-  background: var(--btc-accent);
+  background-color: var(--btc-accent);
 }
 .btc-page .contact-input-huge::placeholder,
 .btc-page .contact-textarea-huge::placeholder {
